@@ -17,28 +17,36 @@ interface FAQItem {
 
 const faqData: FAQItem[] = [
   {
-    question: 'Do I need technical knowledge to work with you?',
-    answer: 'No, you don\'t need any technical knowledge. We handle all the technical aspects of your project, from design to development. We work closely with you to understand your vision and translate it into a market-ready product.'
+    question: 'How are you different from a typical agency?',
+    answer: 'We don’t just take briefs and deliver outputs. We work alongside founders, challenge assumptions, and stay involved from discovery through launch and optimisation.'
   },
   {
-    question: 'What types of projects do you typically work on?',
-    answer: 'We work on a wide range of projects including web applications, mobile apps, MVP development, product design, AI automations, and digital transformation solutions. We specialize in helping busy professionals and early-stage founders bring their ideas to market.'
+    question: 'What stage do we need to be at to work with you?',
+    answer: 'You can come with a rough idea, an early concept, or an existing product that needs clarity, traction, or improvement, we help you figure out the next best move.'
   },
   {
-    question: 'How long does a typical project take?',
-    answer: 'Our typical delivery timeline for a GTM-ready product is 8 weeks. However, project duration can vary based on complexity and scope. We\'ll provide a detailed timeline during our initial discovery call.'
+    question: 'How does your pricing or engagement work?',
+    answer: 'We tailor our work to your needs, whether it’s a short MVP sprint, ongoing product design, or full development support. We\'ve got different model to support Young_Serif.'
   },
   {
-    question: 'How much does it cost?',
-    answer: 'Project costs vary based on scope, complexity, and requirements. We offer transparent pricing and will provide a detailed quote after understanding your specific needs during a free discovery call.'
+    question: '?Do you only build MVPs?',
+    answer: 'No. We help validate ideas, design and build products, and then optimise them based on real user behaviour and business goals.'
+  },
+  {
+    question: 'Can you help if I’m not technical?',
+    answer: 'Absolutely. We handle the tech, the strategy, and the design, so you can focus on your vision and business goals. See us as your technical partner.'
+  },
+  {
+    question: 'Can you help if I’m not technical?',
+    answer: 'Absolutely. We handle the tech, the strategy, and the design, so you can focus on your vision and business goals. See us as your technical partner.'
   },
   {
     question: 'Do you provide ongoing support after launch?',
-    answer: 'Yes, we offer ongoing support and maintenance services. We can help with updates, bug fixes, feature enhancements, and scaling your product as your business grows.'
+    answer: 'Yes! We can continue supporting you after launch, depending on what works best for your team and your goals.'
   },
   {
     question: 'Can you work with our existing systems and team?',
-    answer: 'Absolutely! We\'re experienced in integrating with existing systems and collaborating with in-house teams. We adapt our workflow to work seamlessly with your current infrastructure and processes.'
+    answer: 'Absolutely. We start with a clear assessment of your current setup and adapt to fit seamlessly with your team or systems, only adding what’s needed to move things forward.'
   }
 ];
 
@@ -69,7 +77,7 @@ export default function FAQ({ onSmoothScroll }: FAQProps) {
           </span>
         </motion.div>
 
-        <div className="w-full max-w-[800px] mx-auto flex flex-col items-center gap-10 md:gap-12 lg:gap-16">
+        <div className="w-full max-w-[1000px] mx-auto flex flex-col items-center gap-10 md:gap-12 lg:gap-16">
           <div className="flex flex-col items-center gap-2.5">
             <RevealText
               as="h2"
@@ -94,7 +102,7 @@ export default function FAQ({ onSmoothScroll }: FAQProps) {
             </motion.p>
           </div>
 
-          <div className="w-full flex flex-col gap-4 md:gap-5">
+          <div className="w-full flex flex-col lg:flex-row lg:flex-wrap lg:items-start gap-4 md:gap-5">
             {faqData.map((faq, idx) => (
               <motion.div
                 key={idx}
@@ -102,7 +110,7 @@ export default function FAQ({ onSmoothScroll }: FAQProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.5, delay: idx * 0.06, ease: [0.32, 0.72, 0, 1] }}
-                className={`w-full rounded-2xl overflow-hidden transition-all duration-300 ${
+                className={`w-full lg:w-[calc(50%-10px)] lg:self-start rounded-2xl overflow-hidden transition-all duration-300 ${
                   openFAQIndex === idx ? 'bg-[#F5F5F5] shadow-sm' : 'bg-[#F5F5F5]'
                 }`}
               >

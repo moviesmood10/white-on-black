@@ -32,6 +32,7 @@ export default function Footer() {
   const socialLinks = ['Twitter', 'Instagram', 'LinkedIn'];
   const navLinks = [
     { href: '/work', label: 'Our works' },
+    { href: '/automations', label: 'Automations' },
     { href: '/about', label: 'About' },
     { href: '/toolkit', label: 'Toolkit' },
     { href: '/research', label: 'Research' },
@@ -73,7 +74,7 @@ export default function Footer() {
                 transition={{ duration: 0.5, delay: 0.3 }}
                 className="text-[16px] md:text-[18px] lg:text-[20px] font-medium leading-[1.4em] tracking-[-0.02em] text-white/70 font-manrope"
               >
-                We help businesses succeed in the digital space by creating thoughtful solutions that combine smart design, reliable technology, and a deep understanding of what your users really need.
+                A product partner for ambitious founders. Built by builders to support more builders to ship & grow faster.
               </motion.p>
             </div>
 

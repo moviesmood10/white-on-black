@@ -86,7 +86,7 @@ export default function SelectedWorks({ onSmoothScroll }: SelectedWorksProps) {
               className="text-[20px] font-medium leading-[1.4em] tracking-[-0.02em] text-white w-full md:w-full lg:w-[660px]"
               style={{ fontFamily: 'Manrope, sans-serif' }}
             >
-              Dive into our diverse collection of innovative projects, where creativity meets cutting-edge technology to solve real-world challenges.
+              A sneak peak into our collaborations with smart founders. So yours might be the next on this wall.
             </motion.p>
 
             <motion.a

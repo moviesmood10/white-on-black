@@ -11,22 +11,22 @@ const projects = [
   {
     name: 'RENI AI',
     tags: '/ AI / PRODUCT DESIGN /',
-    image: '/bottle.jpg',
+    image: '/reni.png',
   },
   {
     name: 'ENVOYX',
     tags: '/ FINTECH / AI / PRODUCT DESIGN / MVP DEV / ',
-    image: '/bottle.jpg',
+    image: '/envoyx.png',
   },
   {
     name: 'ARLENZ',
     tags: '/ FINTECH / AI / PRODUCT DESIGN /',
-    image: '/bottle.jpg',
+    image: '/arlenz.png',
   },
   {
     name: 'WAGA',
     tags: '/ REAL ESTATE / PRODUCT DESIGN / MVP DEV / ',
-    image: '/bottle.jpg',
+    image: '/waga.png',
   },
 ];
 
@@ -216,7 +216,7 @@ export default function CaseStudyPage() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.6 }}
-                  className="text-[16px] md:text-[18px] lg:text-[20px] w-full max-w-full lg:max-w-[830px]"
+                  className="text-[16px] md:text-[18px] lg:text-[20px] w-full max-w-full lg:max-w-[580px]"
                   style={{
                     fontFamily: 'Geist, sans-serif',
                     fontWeight: 400,
@@ -225,7 +225,7 @@ export default function CaseStudyPage() {
                     color: '#FFFFFF',
                   }}
                 >
-                  Dive into our diverse collection of innovative projects, where creativity meets cutting-edge technology to solve real-world challenges.
+                  A sneak peak into our collaborations with smart founders. So yours might be the next on this wall.
                 </motion.p>
               </div>
             </div>

@@ -36,7 +36,7 @@ export default function ClientsReview() {
     id: 1,
     backgroundImage: '/images/hero/hero-image-7f1dbe.png',
     testimonial: {
-      quote: '"We expected performance improvements, but the strategic implementation delivered unprecedented operational excellence."',
+      quote: '"Setting new pace & attention to what truly matters in a gift when working with the WOB team. Good job guys!"',
       name: "Mathew Daly",
       title: "Ex. Head of products, TheFolklore Group",
       photo: "/testimonial.png",
@@ -48,12 +48,12 @@ export default function ClientsReview() {
     backgroundImage: '/images/hero/hero-image-7f1dbe.png',
     testimonials: [
       {
-        quote: '"Beyond the clear ROI metrics, what stood out was how the solution scaled with our strategic objectives."',
+        quote: '"Our collaboration, A true product partnership in redesigning our core experience and shape a new product line that supported our $3.2M fundraise."',
         name: "Victor Ekwealor",
         title: "Founder, Clarus",
       },
       {
-        quote: '"Beyond the clear ROI metrics, what stood out was how the solution scaled with our strategic objectives."',
+        quote: '“The trust we’ve built while collaborating with Ifunanya for our US clients led us to cofounding EnvoyX together”',
         name: "Loubao Kraka",
         title: "CEO & Cofounder, EnvoyX",
       },

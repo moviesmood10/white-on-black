@@ -66,9 +66,20 @@ export default function Hero({ onSmoothScroll }: HeroProps) {
               as="h1"
               duration={0.9}
               stagger={0.04}
-              className="break-word text-[48px] md:text-[56px] lg:text-[65px] font-semibold leading-[1.2em] tracking-[-0.08em] text-[#191919] mb-0 font-manrope"
+              className="break-word mb-3 text-[48px] md:text-[56px] lg:text-[65px] font-semibold leading-[1.2em] tracking-[-0.08em] text-[#191919] mb-0 font-manrope"
             >
-              A leading independent software product studio for busy professionals.
+              Build the right thing. Fast.
+            </RevealText>
+            <RevealText
+              as="span"
+              animation="fadeUp"
+              splitBy="words"
+              duration={0.7}
+              stagger={0.02}
+              delay={0.3}
+              className="text-[40px] font-normal text-[#191919] w-full md:w-full lg:w-[517px] leading-[120%] tracking-[-0.96px] font-geist-sans"
+            >
+              <span className="line-through opacity-50">Not an agency</span>;{'\u00A0'}An independent software product studio .
             </RevealText>
           </div>
 
@@ -83,7 +94,7 @@ export default function Hero({ onSmoothScroll }: HeroProps) {
               delay={0.3}
               className="text-[20px] font-normal leading-[1.4em] tracking-[-0.048em] text-[#191919] w-full md:w-full lg:w-[517px]"
             >
-              We help forward thinking busy professionals, early stage founders, & businesses turn their ideas into a market & investor ready product.
+             A product partner helping founders & businesses move from idea to market & investor-ready products—fast and deliberately.
             </RevealText>
 
             <motion.div

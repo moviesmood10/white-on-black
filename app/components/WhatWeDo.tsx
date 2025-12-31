@@ -10,11 +10,13 @@ export default function WhatWeDo() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const services = [
-    { num: '01', title: 'Research', desc: 'We transform complex user needs into intuitive, elegant solutions that solve real business challenges and create meaningful interactions between people and technology.' },
-    { num: '02', title: 'Product Design', desc: 'We transform complex user needs into intuitive, elegant solutions that solve real business challenges and create meaningful interactions between people and technology.' },
-    { num: '03', title: 'Web Development', desc: 'Our branding process goes beyond visual identity, crafting comprehensive narratives that capture your unique essence and create lasting emotional connections with your audience.' },
-    { num: '04', title: 'Mobile Development', desc: 'We bring ideas to life through dynamic, engaging animations that communicate complex concepts with clarity, creativity, and visual storytelling.' },
-    { num: '05', title: 'MVP Development', desc: 'Our development approach combines technical excellence with strategic thinking, building robust digital solutions that are scalable, performant, and aligned with your business objectives.' },
+    { num: '01', title: 'Research', desc: 'From market, industry, regulation & compliance reducing risk by grounding your idea in real user needs, market signals before investing time & money.' },
+    { num: '02', title: 'Product Strategy', desc: 'No bloated roadmaps. We collaborate & assist you in developing a clear winning strategy to win from day zero.' },
+    { num: '03', title: 'Product Design', desc: 'We turn your ideas into clear, intuitive experiences users understands with one goal in mind--drive business goal & keep users engaged.' },
+    { num: '04', title: 'Mobile Development', desc: 'We deliver mobile experiences users naturally adopt into daily life for both Android, IOS leveraging mobile frameworks that fits the context.' },
+    { num: '05', title: 'MVP Development', desc: 'Instead months & years of building, we assist you deliver & launch the smallest unit of your idea to validate demand & momentum.' },
+    { num: '06', title: 'Automations', desc: 'We develop systems that supports growth without operational chaos by automating all guessworks & manual tasks.' },
+    { num: '07', title: 'Go To Market', desc: 'WNo vanity metrics—We collaborate in crafting only GTM strategies & signals that drive sustainable growth.' },
   ];
 
   return (

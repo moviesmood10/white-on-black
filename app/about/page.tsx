@@ -101,10 +101,10 @@ export default function CaseStudyPage() {
             <div className="w-full flex flex-col gap-5 justify-center">
               <div className="w-full h-[300px] md:h-[500px] lg:h-[700px] xl:h-[946.85px] relative overflow-hidden">
                 <Image
-                  src="/bottle.jpg"
+                  src="/envoyx.png"
                   alt="Project image"
                   fill
-                  className="object-cover rounded-[17.598px]"
+                  className="object-contain rounded-[17.598px]"
                 />
               </div>
             </div>
@@ -479,98 +479,12 @@ export default function CaseStudyPage() {
             </div>
           </div>
 
-          {/* Third Section - Image with Controls */}
-          <div className="w-full flex flex-col gap-6 md:gap-8 lg:gap-10">
-            {/* Image Container with Controls */}
-            <div className="w-full flex flex-col gap-5 justify-center">
-              <div className="w-full h-[300px] md:h-[500px] lg:h-[700px] xl:h-[946.85px] relative overflow-hidden">
-                <Image
-                  src="/bottle.jpg"
-                  alt="Project image"
-                  fill
-                  className="object-cover rounded-[17.598px]"
-                />
-              </div>
-              
-              {/* Controls */}
-              <div className="w-full flex flex-col sm:flex-row items-center gap-4 md:gap-6 lg:gap-8 xl:gap-12">
-                {/* Progress Bar */}
-                <div className="w-full sm:flex-1 h-[3px] bg-[rgba(255,255,255,0.25)] rounded-[34px] relative">
-                  <div className="absolute left-0 top-0 w-full sm:w-[60%] md:w-[70%] lg:w-[413.15px] h-[3px] bg-white rounded-[34px]"></div>
-                </div>
-                
-                {/* Navigation Arrows */}
-                <div className="flex flex-row items-center gap-4 md:gap-5">
-                  <button className="w-8 h-8 flex items-center justify-center border border-white rounded-full">
-                    <svg width="16" height="16" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-4 h-4">
-                      <path d="M25.49 9.11L12.36 20L25.49 30.89" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </button>
-                  <button className="w-8 h-8 flex items-center justify-center border border-white rounded-full">
-                    <svg width="16" height="16" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-4 h-4">
-                      <path d="M14.51 9.11L27.64 20L14.51 30.89" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Heading Wrapper */}
-            <div className="w-full flex flex-col md:flex-row md:justify-center gap-6 md:gap-8 lg:gap-12 xl:gap-[200px]">
-              {/* Left Column */}
-              <div className="w-full md:w-auto lg:w-[300px] flex flex-row pt-[15px]">
-                <div className="flex flex-col">
-                  <div className="flex flex-col">
-                    <span
-                      className="text-[14px] md:text-[16px] lg:text-[18px] leading-[1.4em] tracking-[-0.02em]"
-                      style={{
-                        fontFamily: 'Manrope, sans-serif',
-                        fontWeight: 500,
-                        color: 'rgba(255, 255, 255, 0.4)'
-                      }}
-                    >
-                      Section Title
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Column */}
-              <div className="flex-1 flex flex-col justify-center gap-8 md:gap-12 lg:gap-16">
-                {/* Heading */}
-                <div className="flex flex-col">
-                  <h2
-                    className="text-[28px] md:text-[36px] lg:text-[42px] xl:text-[48px] leading-[1.4em] tracking-[-0.105em]"
-                    style={{
-                      fontFamily: 'Manrope, sans-serif',
-                      fontWeight: 600,
-                      color: '#FFFFFF'
-                    }}
-                  >
-                    Understanding the Needs of Today's Online Shoppers
-                  </h2>
-                </div>
-
-                {/* Description */}
-                <div className="w-full max-w-full lg:max-w-[660px] flex flex-col">
-                  <p
-                    className="text-[16px] md:text-[18px] lg:text-[20px] leading-[1.4em] tracking-[-0.02em]"
-                    style={{
-                      fontFamily: 'Manrope, sans-serif',
-                      fontWeight: 500,
-                      color: '#FFFFFF'
-                    }}
-                  >
-                    Dive into our diverse collection of innovative projects, where creativity meets cutting-edge technology to solve real-world challenges.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
       </div>
+      <div className='mb-25'>
       <Start onSmoothScroll={onSmoothScroll} />
+      </div>
     </div>
   );
 }

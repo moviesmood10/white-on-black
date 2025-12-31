@@ -74,14 +74,15 @@ export default function WorkPage() {
 
             {/* Image Grid - matches Figma layout_5PZ1BO: row, gap: 64px, self-stretch */}
             <div className="w-full flex flex-col lg:flex-row gap-16 self-stretch">
-              {/* Image - matches Figma: 864px width, 757px height, borderRadius 12px */}
-              <div className="w-full lg:w-1/2 rounded-[12px] relative overflow-hidden aspect-square lg:aspect-auto">
+              {/* Image - matches Figma: 864px width, 967.16px height, borderRadius 12px, top: -80px */}
+              <div className="w-full lg:w-1/2 rounded-[12px] relative overflow-hidden aspect-square lg:aspect-[864/967.16]">
                 <Image
-                  src="/Image.svg"
+                  src="/ifun.jpg"
                   alt="Two women laughing at work"
                   fill
-                  className="object-cover rounded-[12px]"
+                  className="object-cover rounded-[12px] lg:object-[center_top] lg:translate-y-[-50px]"
                   priority
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
 
@@ -143,18 +144,18 @@ export default function WorkPage() {
           <div className="w-full flex flex-col md:flex-row gap-10 md:gap-16">
             <ApproachCard 
               number="01"
-              title="Research"
-              description="We take the time to truly understand your business, goals, and challenges before proposing any solutions. This foundation helps us truly serve your needs."
+              title="Data driven"
+              description="Every strategy, design, and build decision is guided by research and real user insights, ensuring products work effectively from the start."
             />
             <ApproachCard 
               number="02"
-              title="Data driven"
-              description="We don't believe in one-size-fits-all approaches. Every solution we create is carefully crafted to address your specific challenges and opportunities."
+              title="Growth focused"
+              description="Products are designed to scale, with systems and strategies built to maximise reach, adoption, and sustainable impact."
             />
             <ApproachCard 
               number="03"
               title="Innovation"
-              description="Technology never stands still, and neither do we. We're constantly learning, adapting, and finding better ways to serve our clients."
+              description="Creative problem-solving and smart experimentation drive solutions that stand out and adapt in fast-changing markets."
             />
           </div>
         </div>
