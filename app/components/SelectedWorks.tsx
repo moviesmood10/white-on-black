@@ -2,39 +2,80 @@
 
 import { useRef, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { gsap, ScrollTrigger } from '../animations/utils/gsapConfig';
 import RevealText from '../animations/components/RevealText';
 import MagneticButton from '../animations/components/MagneticButton';
+import Image from 'next/image';
 
 interface SelectedWorksProps {
   onSmoothScroll: (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, targetId: string) => void;
 }
 
+const projects = [
+  {
+    name: 'RENI AI',
+    tags: '/ REAL ESTATE / DISCOVERY / PRODUCT DESIGN / PRODUCT MANAGEMENT',
+    image: '/reni.png',
+  },
+  {
+    name: 'ENVOYX',
+    tags: '/ FINTECH / AI / PRODUCT DESIGN / MVP DEV /',
+    image: '/envoyx.png',
+  },
+  {
+    name: 'ARLENZ',
+    tags: '/ FINTECH / AI / PRODUCT DESIGN /',
+    image: '/arlenz.png',
+  },
+  {
+    name: 'WAGA',
+    tags: '/ REAL ESTATE / PRODUCT DESIGN / MVP DEV /',
+    image: '/waga.png',
+  },
+];
+
 export default function SelectedWorks({ onSmoothScroll }: SelectedWorksProps) {
+  const router = useRouter();
   const sectionRef = useRef<HTMLElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
   const [isHovering, setIsHovering] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     if (!sectionRef.current || !progressRef.current) return;
 
-    // Animate progress bar based on scroll
+    // Calculate progress based on current index
+    const progress = ((currentIndex + 1) / projects.length) * 100;
+
+    // Animate progress bar based on current index
     gsap.to(progressRef.current, {
-      width: '100%',
-      ease: 'none',
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: 'top center',
-        end: 'bottom center',
-        scrub: 1,
-      },
+      width: `${progress}%`,
+      ease: 'power2.out',
+      duration: 0.5,
     });
 
     return () => {
       ScrollTrigger.getAll().forEach((st) => st.kill());
     };
-  }, []);
+  }, [currentIndex]);
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % projects.length);
+  };
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length);
+  };
+
+  const handleViewClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const projectName = projects[currentIndex].name.toLowerCase().replace(/\s+/g, '-');
+    router.push(`/about?project=${projectName}`);
+  };
+
+  const currentProject = projects[currentIndex];
 
   return (
     <section
@@ -130,7 +171,8 @@ export default function SelectedWorks({ onSmoothScroll }: SelectedWorksProps) {
               <MagneticButton
                 strength={0.4}
                 radius={60}
-                className="w-10 h-10 border border-gray-300 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors"
+                onClick={handlePrev}
+                className="w-10 h-10 border border-gray-300 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors cursor-pointer"
               >
                 <svg width="12" height="22" viewBox="0 0 12 22" fill="none">
                   <path d="M11 1L1 11L11 21" stroke="white" strokeWidth="2" />
@@ -139,7 +181,8 @@ export default function SelectedWorks({ onSmoothScroll }: SelectedWorksProps) {
               <MagneticButton
                 strength={0.4}
                 radius={60}
-                className="w-10 h-10 border border-gray-300 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors"
+                onClick={handleNext}
+                className="w-10 h-10 border border-gray-300 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors cursor-pointer"
               >
                 <svg width="12" height="22" viewBox="0 0 12 22" fill="none">
                   <path d="M1 1L11 11L1 21" stroke="white" strokeWidth="2" />
@@ -161,23 +204,31 @@ export default function SelectedWorks({ onSmoothScroll }: SelectedWorksProps) {
               className="w-full h-[265.12px] md:h-[500px] lg:h-[946.85px] bg-[#F3F3F1] rounded-[17.6px] relative overflow-hidden cursor-pointer group"
               onMouseEnter={() => setIsHovering(true)}
               onMouseLeave={() => setIsHovering(false)}
+              onClick={handleViewClick}
               data-cursor="view"
             >
-              {/* Ken Burns Effect Image */}
-              <motion.div
-                className="absolute inset-0 px-20 py-10"
-                style={{backgroundImage: 'url(/back.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat'}}
-                animate={{
-                  scale: isHovering ? 1.08 : 1,
-                }}
-                transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <img
-                  src="/img2.png"
-                  alt="RENI AI Project"
-                  className="w-full h-full object-cover"
-                />
-              </motion.div>
+              {/* Project Image */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentIndex}
+                  initial={{ opacity: 0, scale: 1.05 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute inset-0"
+                  style={{
+                    scale: isHovering ? 1.08 : 1,
+                    transition: 'transform 1.2s cubic-bezier(0.22, 1, 0.36, 1)',
+                  }}
+                >
+                  <Image
+                    src={currentProject.image}
+                    alt={currentProject.name}
+                    fill
+                    className="object-cover"
+                  />
+                </motion.div>
+              </AnimatePresence>
 
               {/* Hover Overlay */}
               <AnimatePresence>
@@ -187,7 +238,7 @@ export default function SelectedWorks({ onSmoothScroll }: SelectedWorksProps) {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="absolute inset-0 bg-black/20 flex items-center justify-center"
+                    className="absolute inset-0 bg-black/20 flex items-center justify-center z-10"
                   >
                     <motion.div
                       initial={{ scale: 0.8, opacity: 0 }}
@@ -204,27 +255,26 @@ export default function SelectedWorks({ onSmoothScroll }: SelectedWorksProps) {
             </div>
 
             <motion.div
+              key={currentIndex}
               initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
               className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 md:gap-0"
             >
               <h3
                 className="text-[24px] md:text-[32px] lg:text-[40px] font-semibold leading-[1.4em] tracking-[-0.047em] text-white"
                 style={{ fontFamily: 'Manrope, sans-serif' }}
               >
-                RENI AI
+                {currentProject.name}
               </h3>
               <motion.span
                 initial={{ opacity: 0 }}
-                whileInView={{ opacity: 0.4 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.4 }}
+                animate={{ opacity: 0.4 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
                 className="text-[14px] md:text-[16px] lg:text-[18px] font-medium leading-[1.4em] tracking-[-0.02em] text-white"
                 style={{ fontFamily: 'Manrope, sans-serif' }}
               >
-                / REAL ESTATE / DISCOVERY / PRODUCT DESIGN / PRODUCT MANAGEMENT
+                {currentProject.tags}
               </motion.span>
             </motion.div>
           </motion.div>

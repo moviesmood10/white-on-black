@@ -1,6 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import Start from '../components/Start';
 import { handleSmoothScroll } from '../utils/smoothScroll';
 import Image from 'next/image';
@@ -9,23 +11,43 @@ const projects = [
   {
     name: 'RENI AI',
     tags: '/ AI / PRODUCT DESIGN /',
-    image: '/bottle.jpg',
+    image: '/reni.png',
+    client: 'RENI AI',
+    industry: 'Real Estate',
+    year: '2025',
+    services: 'Product Design',
+    overview: 'AI agent builder for hospitality industry'
   },
   {
     name: 'ENVOYX',
     tags: '/ FINTECH / AI / PRODUCT DESIGN / MVP DEV / ',
-    image: '/bottle.jpg',
+    image: '/envoyx.png',
+    client: 'ENVOYX',
+    industry: 'Fintech',
+    year: '2025',
+    services: 'Product Design',
+    overview: 'Invoice financing infrastructure for SMEs'
   },
   {
     name: 'ARLENZ',
     tags: '/ FINTECH / AI / PRODUCT DESIGN /',
-    image: '/bottle.jpg',
+    image: '/arlenz.png',
+    client: 'ARLENZ',
+    industry: 'Fintech',
+    year: '2025',
+    services: 'Product Design',
+    overview: 'Personal finance & portfolio management'
   },
   {
     name: 'WAGA',
     tags: '/ REAL ESTATE / PRODUCT DESIGN / MVP DEV / ',
-    image: '/bottle.jpg',
-  },
+    image: '/waga.png',
+    client: 'WAGA',
+    industry: 'Real Estate',
+    year: '2025',
+    services: 'Product Design',
+    overview: 'AI-powered financial intelligence platform'
+    },
 ];
 const services = [
   { title: 'Product Design' },
@@ -41,6 +63,35 @@ const stats = [
 ];
 
 export default function CaseStudyPage() {
+  const searchParams = useSearchParams();
+  const [selectedProject, setSelectedProject] = useState(projects[0]);
+
+  useEffect(() => {
+    const projectParam = searchParams.get('project');
+    if (projectParam) {
+      // Normalize the project parameter to match project names
+      const normalizedParam = projectParam.toLowerCase();
+      
+      // Map URL parameters to project names
+      const projectMap: { [key: string]: string } = {
+        'reni-ai': 'RENI AI',
+        'reni': 'RENI AI',
+        'envoyx': 'ENVOYX',
+        'arlenz': 'ARLENZ',
+        'waga': 'WAGA',
+      };
+
+      const projectName = projectMap[normalizedParam] || normalizedParam.toUpperCase();
+      
+      const foundProject = projects.find(
+        (p) => p.name.toLowerCase() === projectName.toLowerCase()
+      );
+      if (foundProject) {
+        setSelectedProject(foundProject);
+      }
+    }
+  }, [searchParams]);
+
   const onSmoothScroll = (
     e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>,
     targetId: string
@@ -64,13 +115,14 @@ export default function CaseStudyPage() {
 
           <div className="flex flex-col gap-5">
             <motion.h1
+              key={selectedProject.name}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
               className="text-[40px] md:text-[56px] lg:text-[72px] font-semibold leading-[1.2em] tracking-[-0.08em] text-[#191919]"
               style={{ fontFamily: 'Manrope, sans-serif' }}
             >
-              Invoice financing infrastructure for SMEs
+              {selectedProject.overview}
             </motion.h1>
 
             {/* Tags */}
@@ -101,8 +153,8 @@ export default function CaseStudyPage() {
             <div className="w-full flex flex-col gap-5 justify-center">
               <div className="w-full h-[300px] md:h-[500px] lg:h-[700px] xl:h-[946.85px] relative overflow-hidden">
                 <Image
-                  src="/envoyx.png"
-                  alt="Project image"
+                  src={selectedProject.image}
+                  alt={selectedProject.name}
                   fill
                   className="object-contain rounded-[17.598px]"
                 />
@@ -203,7 +255,7 @@ export default function CaseStudyPage() {
                             color: 'rgba(255, 255, 255, 0.6)'
                           }}
                         >
-                          Arlenz
+                          {selectedProject.client}
                         </span>
                       </div>
                     </div>
@@ -234,7 +286,7 @@ export default function CaseStudyPage() {
                             color: 'rgba(255, 255, 255, 0.6)'
                           }}
                         >
-                          Fintech
+                          {selectedProject.industry}
                         </span>
                       </div>
                     </div>
@@ -265,7 +317,7 @@ export default function CaseStudyPage() {
                             color: 'rgba(255, 255, 255, 0.6)'
                           }}
                         >
-                          2025
+                          {selectedProject.year}
                         </span>
                       </div>
                     </div>
@@ -296,7 +348,7 @@ export default function CaseStudyPage() {
                             color: 'rgba(255, 255, 255, 0.6)'
                           }}
                         >
-                          Product Design
+                          {selectedProject.services}
                         </span>
                       </div>
                     </div>

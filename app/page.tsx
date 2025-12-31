@@ -10,6 +10,7 @@ import FAQ from './components/FAQ';
 import BookCallForm from './components/BookCallForm';
 import { handleSmoothScroll } from './utils/smoothScroll';
 import ClientsReview from './components/ClientsReview';
+import MoreProjects from './components/MoreProjects';
 
 export default function Home() {
   const onSmoothScroll = (
@@ -25,6 +26,7 @@ export default function Home() {
         <Hero onSmoothScroll={onSmoothScroll} />
         <SelectedWorks onSmoothScroll={onSmoothScroll} />
         <WhoWeAre />
+        <MoreProjects />
         <Start onSmoothScroll={onSmoothScroll} />
         <WhatWeDo />
         <OurProcess onSmoothScroll={onSmoothScroll} />
