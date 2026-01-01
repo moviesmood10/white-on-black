@@ -1,11 +1,10 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
-import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
+import { useRef, useEffect, useState, useCallback } from 'react';
+import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
 import Start from '../components/Start';
 import { handleSmoothScroll } from '../utils/smoothScroll';
-import Lottie from 'lottie-react';
-import { gsap, ScrollTrigger } from '../animations/utils/gsapConfig';
+import Lottie, { LottieRefCurrentProps } from 'lottie-react';
 
 const projects = [
   {
@@ -30,45 +29,262 @@ const projects = [
   },
 ];
 
+// Shimmer loading skeleton component
+function AnimationSkeleton() {
+  return (
+    <div className="w-full aspect-video bg-gradient-to-r from-[#2a2a2a] via-[#3a3a3a] to-[#2a2a2a] animate-shimmer bg-[length:200%_100%] rounded-lg" />
+  );
+}
 
 function ScrollProgress() {
   const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
 
   return (
     <motion.div
-      className="fixed top-0 left-0 right-0 h-[3px] bg-white origin-left z-50"
+      className="fixed top-0 left-0 right-0 h-[3px] bg-white origin-left z-50 will-change-transform"
       style={{ scaleX }}
     />
   );
 }
 
-export default function CaseStudyPage() {
-  const [animations, setAnimations] = useState<Record<number, any>>({});
+// Individual project card with lazy loading
+function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const lottieRef = useRef<LottieRefCurrentProps>(null);
+  const isInView = useInView(cardRef, { once: true, margin: "-100px" });
+  const [animationData, setAnimationData] = useState<any>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
-  // Load animation data
+  // Lazy load animation when in view
   useEffect(() => {
-    const loadAnimations = async () => {
-      const loaded: Record<number, any> = {};
-      for (let i = 0; i < projects.length; i++) {
-        try {
-          const response = await fetch(projects[i].animation);
-          const data = await response.json();
-          loaded[i] = data;
-        } catch (error) {
-          console.error(`Failed to load animation for ${projects[i].name}:`, error);
-        }
-      }
-      setAnimations(loaded);
-    };
-    loadAnimations();
-  }, []);
+    if (isInView && !animationData) {
+      fetch(project.animation)
+        .then(res => res.json())
+        .then(data => {
+          setAnimationData(data);
+          setIsLoaded(true);
+        })
+        .catch(err => console.error(`Failed to load ${project.name}:`, err));
+    }
+  }, [isInView, animationData, project.animation, project.name]);
 
+  // Pause/play based on visibility for performance
+  useEffect(() => {
+    if (lottieRef.current && animationData) {
+      if (isInView) {
+        lottieRef.current.play();
+      } else {
+        lottieRef.current.pause();
+      }
+    }
+  }, [isInView, animationData]);
+
+  const smoothEase = [0.22, 1, 0.36, 1] as const;
+
+  const cardVariants = {
+    hidden: {
+      opacity: 0,
+      y: 60,
+      scale: 0.95,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.8,
+        delay: index * 0.15,
+        ease: smoothEase,
+      }
+    }
+  };
+
+  const imageContainerVariants = {
+    rest: {
+      scale: 1,
+      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)",
+    },
+    hover: {
+      scale: 1.02,
+      boxShadow: "0 20px 60px rgba(0, 0, 0, 0.4)",
+      transition: {
+        duration: 0.4,
+        ease: smoothEase,
+      }
+    }
+  };
+
+  const innerContentVariants = {
+    rest: { scale: 1 },
+    hover: {
+      scale: 1.05,
+      transition: {
+        duration: 0.6,
+        ease: smoothEase,
+      }
+    }
+  };
+
+  const textVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        delay: index * 0.15 + 0.3,
+        ease: smoothEase,
+      }
+    }
+  };
+
+  return (
+    <motion.div
+      ref={cardRef}
+      variants={cardVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.15 }}
+      className="w-full flex flex-col gap-5 gpu-accelerated"
+    >
+      {/* Project Animation Container */}
+      <motion.div
+        variants={imageContainerVariants}
+        initial="rest"
+        whileHover="hover"
+        onHoverStart={() => setIsHovered(true)}
+        onHoverEnd={() => setIsHovered(false)}
+        style={{ backgroundImage: `url(/wood.jpg)` }}
+        className="w-full overflow-hidden rounded-lg cursor-pointer will-change-transform"
+      >
+        <motion.div
+          variants={innerContentVariants}
+          className="w-full will-change-transform"
+        >
+          {isLoaded && animationData ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 1.1 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
+              <Lottie
+                lottieRef={lottieRef}
+                animationData={animationData}
+                loop={true}
+                autoplay={isInView}
+                className="w-full"
+                style={{ height: '100%' }}
+                rendererSettings={{
+                  preserveAspectRatio: 'xMidYMid slice',
+                  progressiveLoad: true,
+                }}
+              />
+            </motion.div>
+          ) : (
+            <AnimationSkeleton />
+          )}
+        </motion.div>
+      </motion.div>
+
+      {/* Project Info */}
+      <motion.div
+        variants={textVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="w-full flex flex-row justify-between items-center gap-2 flex-wrap"
+      >
+        <motion.h3
+          className="text-[24px] md:text-[32px] lg:text-[40px] font-semibold leading-[1.4em] tracking-[-0.078em] md:tracking-[-0.047em] text-white"
+          style={{ fontFamily: 'Manrope, sans-serif' }}
+          whileHover={{ x: 10 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+        >
+          {project.name}
+        </motion.h3>
+        {/* Tags - Desktop */}
+        <motion.span
+          className="hidden md:inline text-[16px] lg:text-[18px] font-medium leading-[1.4em] tracking-[-0.02em] text-white/40"
+          style={{ fontFamily: 'Manrope, sans-serif' }}
+          whileHover={{ color: 'rgba(255, 255, 255, 0.7)' }}
+          transition={{ duration: 0.3 }}
+        >
+          {project.tags}
+        </motion.span>
+        {/* Mobile tag pill */}
+        <div className="md:hidden flex items-center gap-3">
+          <motion.span
+            className="px-[14.67px] py-[7.33px] bg-[#404040] rounded-[14.67px] text-[12px] font-medium text-white"
+            style={{ fontFamily: 'Manrope, sans-serif' }}
+            whileHover={{ scale: 1.05, backgroundColor: '#505050' }}
+            transition={{ duration: 0.2 }}
+          >
+            {project.tags.split('/').filter(t => t.trim())[0]?.trim()}
+          </motion.span>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+// Define ease as const tuple for TypeScript
+const smoothEaseGlobal = [0.22, 1, 0.36, 1] as const;
+
+export default function CaseStudyPage() {
   const onSmoothScroll = (
     e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>,
     targetId: string
   ) => {
     handleSmoothScroll(e, targetId);
+  };
+
+  // Header animation variants
+  const headerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.1,
+      }
+    }
+  };
+
+  const tagVariants = {
+    hidden: { opacity: 0, x: -30 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.8,
+        ease: smoothEaseGlobal,
+      }
+    }
+  };
+
+  const titleVariants = {
+    hidden: { y: '100%' },
+    visible: {
+      y: 0,
+      transition: {
+        duration: 1,
+        ease: smoothEaseGlobal,
+      }
+    }
+  };
+
+  const descVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: smoothEaseGlobal,
+      }
+    }
   };
 
   return (
@@ -77,12 +293,15 @@ export default function CaseStudyPage() {
 
       <div className="w-full flex flex-col bg-[#191919]">
         {/* Header Section */}
-        <div className="w-full py-[72px] px-6 md:py-[80px] md:px-10 lg:py-[100px] lg:px-[164px] 2xl:max-w-[1920px] 2xl:mx-auto">
+        <motion.div
+          variants={headerVariants}
+          initial="hidden"
+          animate="visible"
+          className="w-full py-[72px] px-6 md:py-[80px] md:px-10 lg:py-[100px] lg:px-[164px] 2xl:max-w-[1920px] 2xl:mx-auto"
+        >
           <div className="w-full flex flex-col md:flex-row md:justify-between md:items-start gap-6 md:gap-8 lg:gap-[160px]">
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              variants={tagVariants}
               className="flex flex-row justify-start md:justify-center items-center pt-[15px]"
             >
               <span
@@ -103,9 +322,7 @@ export default function CaseStudyPage() {
               <div className="flex flex-col self-stretch gap-6 md:gap-8">
                 <div className="overflow-hidden">
                   <motion.h2
-                    initial={{ y: '100%' }}
-                    animate={{ y: 0 }}
-                    transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                    variants={titleVariants}
                     className="text-[32px] md:text-[48px] lg:text-[56px] xl:text-[72px]"
                     style={{
                       fontFamily: 'Manrope, sans-serif',
@@ -120,9 +337,7 @@ export default function CaseStudyPage() {
                 </div>
 
                 <motion.p
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.6 }}
+                  variants={descVariants}
                   className="text-[16px] md:text-[18px] lg:text-[20px] w-full max-w-full lg:max-w-[580px]"
                   style={{
                     fontFamily: 'Geist, sans-serif',
@@ -137,74 +352,17 @@ export default function CaseStudyPage() {
               </div>
             </div>
           </div>
+        </motion.div>
+
+        {/* Projects Grid */}
+        <div className="w-full flex flex-col gap-8 md:gap-10 lg:gap-12 py-[72px] px-6 md:py-[80px] md:px-10 lg:py-[100px] lg:px-[164px] 2xl:max-w-[1920px] 2xl:mx-auto">
+          {projects.map((project, idx) => (
+            <ProjectCard key={project.name} project={project} index={idx} />
+          ))}
         </div>
-
-        <div className="w-full flex flex-col gap-5 w-full py-[72px] px-6 md:py-[80px] md:px-10 lg:py-[100px] lg:px-[164px] 2xl:max-w-[1920px] 2xl:mx-auto">
-            {projects.map((project, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
-                className="w-full flex flex-col gap-5"
-
-              >
-                {/* Project Animation - Mobile: 265.12px, Tablet: 500px, Desktop: 946.85px */}
-                <motion.div
-                  whileHover={{ scale: 1.01 }}
-                  transition={{ duration: 0.3 }}
-                  style={{ backgroundImage: `url(/wood.jpg)` }}
-                  className="w-full"
-                >
-                  <div className=" w-full">
-                    {animations[idx] ? (
-                      <Lottie
-                        animationData={animations[idx]}
-                        loop={true}
-                        autoplay={true}
-                        className="w-full"
-                        style={{ height: '100%' }}
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <div className="text-gray-400">Loading...</div>
-                      </div>
-                    )}
-                  </div>
-                </motion.div>
-
-                {/* Project Info */}
-                <div className="w-full flex flex-row justify-between items-center gap-2 flex-wrap">
-                  {/* Mobile: 24px, Tablet: 32px, Desktop: 40px */}
-                  <h3 
-                    className="text-[24px] md:text-[32px] lg:text-[40px] font-semibold leading-[1.4em] tracking-[-0.078em] md:tracking-[-0.047em] text-white"
-                    style={{ fontFamily: 'Manrope, sans-serif' }}
-                  >
-                    {project.name}
-                  </h3>
-                  {/* Tags as pill on mobile, text on tablet+ */}
-                  <span 
-                    className="hidden md:inline text-[16px] lg:text-[18px] font-medium leading-[1.4em] tracking-[-0.02em] text-white/40"
-                    style={{ fontFamily: 'Manrope, sans-serif' }}
-                  >
-                    {project.tags}
-                  </span>
-                  {/* Mobile tag pill */}
-                  <div className="md:hidden flex items-center gap-3">
-                    <span 
-                      className="px-[14.67px] py-[7.33px] bg-[#404040] rounded-[14.67px] text-[12px] font-medium text-white"
-                      style={{ fontFamily: 'Manrope, sans-serif' }}
-                    >
-                      {project.tags.split('/').filter(t => t.trim())[0]?.trim()}
-                    </span>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
       </div>
-      <div className='pb-20 '>
+
+      <div className='pb-20'>
         <Start onSmoothScroll={onSmoothScroll} />
       </div>
     </div>
