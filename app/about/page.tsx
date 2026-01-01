@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import Start from '../components/Start';
 import { handleSmoothScroll } from '../utils/smoothScroll';
 import Image from 'next/image';
@@ -82,7 +82,7 @@ const stats = [
   { value: '95', suffix: '%', label: 'Client retention' },
 ];
 
-export default function CaseStudyPage() {
+function CaseStudyContent() {
   const searchParams = useSearchParams();
   const [selectedProject, setSelectedProject] = useState(projects.find(p => p.name === 'ENVOYX') || projects[0]);
 
@@ -425,5 +425,17 @@ export default function CaseStudyPage() {
       <Start onSmoothScroll={onSmoothScroll} />
       </div>
     </div>
+  );
+}
+
+export default function CaseStudyPage() {
+  return (
+    <Suspense fallback={
+      <div className="w-full flex flex-col items-center component-spacing mt-25 min-h-screen justify-center">
+        <div className="text-gray-400">Loading...</div>
+      </div>
+    }>
+      <CaseStudyContent />
+    </Suspense>
   );
 }
