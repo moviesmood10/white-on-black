@@ -70,17 +70,11 @@ export default function Hero({ onSmoothScroll }: HeroProps) {
             >
               Build the right thing. Fast.
             </RevealText>
-            <RevealText
-              as="span"
-              animation="fadeUp"
-              splitBy="words"
-              duration={0.7}
-              stagger={0.02}
-              delay={0.3}
+            <span
               className="text-[40px] font-normal text-[#191919] w-full md:w-full lg:w-[517px] leading-[120%] tracking-[-0.96px] font-geist-sans"
             >
-              <span className="line-through opacity-50">Not an agency</span>;{'\u00A0'}An independent software product studio .
-            </RevealText>
+              <span className="line-through opacity-50">Not an agency;</span>{'\u00A0'}An independent software product studio .
+            </span>
           </div>
 
           {/* Description and CTAs */}

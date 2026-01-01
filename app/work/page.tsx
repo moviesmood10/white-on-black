@@ -235,8 +235,9 @@ export default function CaseStudyPage() {
         {/* Sticky Scrollytelling Section */}
         <StickyProjectsSection />
       </div>
-
-      <Start onSmoothScroll={onSmoothScroll} />
+      <div className='pb-20 '>
+        <Start onSmoothScroll={onSmoothScroll} />
+      </div>
     </div>
   );
 }

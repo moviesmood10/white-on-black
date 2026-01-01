@@ -99,10 +99,10 @@ export default function OurProcess({ onSmoothScroll }: OurProcessProps) {
             <div className="flex flex-col items-center gap-6">
               {isMobile ? (
                 <h2
-                  className="text-[40px] md:text-[48px] lg:text-[56px] font-normal leading-[1.1em] tracking-[-0.06em] text-[#2B180A] text-center w-full md:w-full lg:w-[734px]"
+                  className="text-[40px] font-bold md:text-[48px] lg:text-[56px] font-normal leading-[1.1em] tracking-[-0.06em] text-[#2B180A] text-center w-full md:w-full lg:w-[734px]"
                   style={{ fontFamily: 'Manrope, serif' }}
                 >
-                  We handle everything so you don't have to.
+                  A proven path from idea to impact
                 </h2>
               ) : (
                 <RevealText
@@ -111,10 +111,10 @@ export default function OurProcess({ onSmoothScroll }: OurProcessProps) {
                   splitBy="words"
                   duration={0.8}
                   stagger={0.04}
-                  className="text-[40px] md:text-[48px] lg:text-[56px] font-normal leading-[1.1em] tracking-[-0.06em] text-[#2B180A] text-center w-full md:w-full lg:w-[734px]"
+                  className="text-[40px] font-bold md:text-[48px] lg:text-[56px] font-normal leading-[1.1em] tracking-[-0.06em] text-[#2B180A] text-center w-full md:w-full"
                   style={{ fontFamily: 'Manrope, serif' }}
                 >
-                  We handle everything so you don't have to.
+                  A proven path from idea to impact
                 </RevealText>
               )}
               {isMobile ? (
@@ -299,11 +299,11 @@ export default function OurProcess({ onSmoothScroll }: OurProcessProps) {
                     strength={0.3}
                     radius={100}
                     onClick={(e) => onSmoothScroll(e as React.MouseEvent<HTMLAnchorElement>, '#book-call')}
-                    className="inline-flex items-center gap-1 text-[12px] font-normal leading-[1.5em] tracking-[-0.04em] text-[#191919] group"
+                    className="inline-flex items-center gap-2 hover-underline text-[32px] font-normal leading-[1.5em] tracking-[-0.04em] text-[#191919] group"
                     style={{ fontFamily: 'Geist, sans-serif' }}
                   >
-                   <img src="/arr.svg" alt="arrow" width={12} height={12} />
-                    <span className="hover-underline">Book a free call</span>
+                   <img src="/arr.svg" alt="arrow" width={20} height={20} />
+                    <span className="">Book a free discovery call</span>
                   </MagneticButton>
                 </motion.div>
               )}

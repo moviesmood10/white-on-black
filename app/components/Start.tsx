@@ -71,30 +71,18 @@ export default function Start({ onSmoothScroll }: StartProps) {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
           >
-            <MagneticButton
-              as="a"
-              href="#book-call"
-              strength={0.35}
-              radius={150}
-              onClick={(e) => onSmoothScroll(e as React.MouseEvent<HTMLAnchorElement>, '#book-call')}
-              className="inline-flex hover-underline items-center gap-3 pb-1 text-[24px] md:text-[28px] lg:text-[32px] font-semibold leading-[1.4em] tracking-[-0.04em] text-[#191919] group"
-              style={{ fontFamily: 'Manrope, sans-serif' }}
-            >
-              <span className="">Start now</span>
-              <motion.div
-                className="w-4 h-4 transition-transform group-hover:translate-x-2"
-                whileHover={{ x: 5 }}
-              >
-                <img
-                  src="/arrow.svg"
-                  alt="arrow"
-                  width={16}
-                  height={16}
-                  className="w-full h-full"
-                  style={{ filter: 'brightness(0)' }}
-                />
-              </motion.div>
-            </MagneticButton>
+           <MagneticButton
+                    as="a"
+                    href="#book-call"
+                    strength={0.3}
+                    radius={100}
+                    onClick={(e) => onSmoothScroll(e as React.MouseEvent<HTMLAnchorElement>, '#book-call')}
+                    className="inline-flex items-center gap-2 hover-underline text-[32px] font-normal leading-[1.5em] tracking-[-0.04em] text-[#191919] group"
+                    style={{ fontFamily: 'Geist, sans-serif' }}
+                  >
+                   <img src="/arr.svg" alt="arrow" width={20} height={20} />
+                    <span className="">Book a free discovery call</span>
+                  </MagneticButton>
           </motion.div>
         </div>
       </div>

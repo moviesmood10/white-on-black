@@ -13,6 +13,7 @@ export default function WhatWeDo() {
     { num: '01', title: 'Research', desc: 'From market, industry, regulation & compliance reducing risk by grounding your idea in real user needs, market signals before investing time & money.' },
     { num: '02', title: 'Product Strategy', desc: 'No bloated roadmaps. We collaborate & assist you in developing a clear winning strategy to win from day zero.' },
     { num: '03', title: 'Product Design', desc: 'We turn your ideas into clear, intuitive experiences users understands with one goal in mind--drive business goal & keep users engaged.' },
+    { num: '04', title: 'Web Development', desc: 'We turn your ideas into clear, intuitive experiences users understands with one goal in mind--drive business goal & keep users engaged.' },
     { num: '04', title: 'Mobile Development', desc: 'We deliver mobile experiences users naturally adopt into daily life for both Android, IOS leveraging mobile frameworks that fits the context.' },
     { num: '05', title: 'MVP Development', desc: 'Instead months & years of building, we assist you deliver & launch the smallest unit of your idea to validate demand & momentum.' },
     { num: '06', title: 'Automations', desc: 'We develop systems that supports growth without operational chaos by automating all guessworks & manual tasks.' },

@@ -12,6 +12,7 @@ import FAQ from '../components/FAQ';
 import BookCallForm from '../components/BookCallForm';
 import SectionLabel from '../components/SectionLabel';
 import ApproachCard from '../components/ApproachCard';
+import OurProcess from '../components/OurProcess';
 
 export default function WorkPage() {
   const onSmoothScroll = (
@@ -135,10 +136,11 @@ export default function WorkPage() {
         </div>
       </section>
       <WhoWeAre />
+      <OurProcess onSmoothScroll={onSmoothScroll}/>
       <section className="w-full bg-white flex flex-col items-center py-[72px] px-6 md:py-[80px] md:px-10 lg:py-[100px] lg:px-[164px] 2xl:max-w-[1920px] 2xl:mx-auto">
         <div className="w-full flex flex-col gap-16">
           <div className="w-full pt-[15px]">
-            <SectionLabel text="/OUR APPROACH/" className="text-[#191919]" />
+            <SectionLabel text="/OUR PHILOSOPHY/" className="text-[#191919]" />
           </div>
 
           <div className="w-full flex flex-col md:flex-row gap-10 md:gap-16">

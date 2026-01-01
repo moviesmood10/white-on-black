@@ -29,7 +29,7 @@ const faqData: FAQItem[] = [
     answer: 'We tailor our work to your needs, whether it’s a short MVP sprint, ongoing product design, or full development support. We\'ve got different model to support Young_Serif.'
   },
   {
-    question: '?Do you only build MVPs?',
+    question: 'Do you only build MVPs?',
     answer: 'No. We help validate ideas, design and build products, and then optimise them based on real user behaviour and business goals.'
   },
   {
@@ -88,7 +88,7 @@ export default function FAQ({ onSmoothScroll }: FAQProps) {
               className="text-[40px] md:text-[48px] lg:text-[56px] font-semibold leading-[1.1em] tracking-[-0.06em] text-[#191919]"
               style={{ fontFamily: 'Manrope, serif' }}
             >
-              Your questions answered.
+              Your questions <span className='opacity-50'>answered.</span>
             </RevealText>
             <motion.p
               initial={{ opacity: 0, y: 20 }}

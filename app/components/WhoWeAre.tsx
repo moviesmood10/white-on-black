@@ -74,7 +74,7 @@ export default function WhoWeAre() {
               className="text-[40px] md:text-[48px] lg:text-[56px] font-normal leading-[1.1em] tracking-[-0.06em] text-[#191919] w-full md:w-full lg:w-[501px]"
               style={{ fontFamily: 'Manrope, serif' }}
             >
-              We're not your typical digital agency.
+              We're not your <span className='opacity-50'>typical</span> digital agency.
             </RevealText>
 
             <motion.p

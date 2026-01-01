@@ -201,7 +201,8 @@ export default function SelectedWorks({ onSmoothScroll }: SelectedWorksProps) {
           >
             <div
               ref={imageRef}
-              className="w-full h-[265.12px] md:h-[500px] lg:h-[946.85px] bg-[#F3F3F1] rounded-[17.6px] relative overflow-hidden cursor-pointer group"
+              className="w-full h-[265.12px] md:h-[500px] lg:h-[946.85px] p-8 bg-[#F3F3F1] relative overflow-hidden cursor-pointer group bg-cover bg-center bg-no-repeat"
+              style={{ backgroundImage: `url(/wood.jpg)` }}
               onMouseEnter={() => setIsHovering(true)}
               onMouseLeave={() => setIsHovering(false)}
               onClick={handleViewClick}
@@ -215,7 +216,7 @@ export default function SelectedWorks({ onSmoothScroll }: SelectedWorksProps) {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                  className="absolute inset-0"
+                  className="absolute inset-0 p-10"
                   style={{
                     scale: isHovering ? 1.08 : 1,
                     transition: 'transform 1.2s cubic-bezier(0.22, 1, 0.36, 1)',
@@ -225,7 +226,7 @@ export default function SelectedWorks({ onSmoothScroll }: SelectedWorksProps) {
                     src={currentProject.image}
                     alt={currentProject.name}
                     fill
-                    className="object-cover"
+                    className="object-cover px-20 py-20"
                   />
                 </motion.div>
               </AnimatePresence>

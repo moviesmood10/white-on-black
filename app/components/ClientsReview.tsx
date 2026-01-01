@@ -37,8 +37,8 @@ export default function ClientsReview() {
     backgroundImage: '/images/hero/hero-image-7f1dbe.png',
     testimonial: {
       quote: '"Setting new pace & attention to what truly matters in a gift when working with the WOB team. Good job guys!"',
-      name: "Mathew Daly",
-      title: "Ex. Head of products, TheFolklore Group",
+      name: "Victor Ekwealor",
+      title: "Founder, Clarus",
       photo: "/testimonial.png",
     },
   };
@@ -49,8 +49,8 @@ export default function ClientsReview() {
     testimonials: [
       {
         quote: '"Our collaboration, A true product partnership in redesigning our core experience and shape a new product line that supported our $3.2M fundraise."',
-        name: "Victor Ekwealor",
-        title: "Founder, Clarus",
+        name: "Mathew Daly",
+        title: "Ex. Head of products, TheFolklore Group",
       },
       {
         quote: '“The trust we’ve built while collaborating with Ifunanya for our US clients led us to cofounding EnvoyX together”',
@@ -84,14 +84,12 @@ export default function ClientsReview() {
         <div className="w-full flex flex-col gap-10 md:gap-12 lg:gap-16">
           <RevealText
             as="h2"
-            // animation="slideUp"
-            splitBy="words"
             duration={0.8}
             stagger={0.04}
             className="text-[40px] md:text-[48px] lg:text-[56px] font-semibold leading-[1.1em] tracking-[-0.06em] text-[#191919] w-full md:w-full lg:w-[912px]"
             style={{ fontFamily: 'Manrope, sans-serif' }}
           >
-            See why smart busy professionals like you collaborates with WhiteonBlack
+            See why <span className="text-[#191919]/60">smart busy professionals</span> like you collaborates with WhiteonBlack
           </RevealText>
 
           <div className="w-full flex flex-col md:flex-row items-stretch gap-6 md:gap-6">
@@ -135,9 +133,9 @@ export default function ClientsReview() {
                 {/* Content Section */}
                 <div className="flex-1 flex flex-col gap-1.5 min-h-0">
                   {/* Quote Card */}
-                  <div className="flex-1 bg-white rounded-[22px] p-6 flex flex-col justify-center min-h-0">
+                  <div className="flex-1 bg-white rounded-[22px] p-6 flex flex-col justify-start items-start min-h-0">
                     <p
-                      className="text-[18px] md:text-[20px] font-normal leading-[1.3em] text-[#191919]"
+                      className="text-[18px] font-normal leading-[1.3em] text-[#191919]"
                       style={{ fontFamily: 'Geist, sans-serif' }}
                     >
                       {group1.testimonial.quote}

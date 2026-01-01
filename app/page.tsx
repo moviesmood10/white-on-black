@@ -27,8 +27,8 @@ export default function Home() {
         <SelectedWorks onSmoothScroll={onSmoothScroll} />
         <WhoWeAre />
         <MoreProjects />
-        <Start onSmoothScroll={onSmoothScroll} />
         <WhatWeDo />
+        <Start onSmoothScroll={onSmoothScroll} />
         <OurProcess onSmoothScroll={onSmoothScroll} />
         <ClientsReview />
         <FAQ onSmoothScroll={onSmoothScroll} />
