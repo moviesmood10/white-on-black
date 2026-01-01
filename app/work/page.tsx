@@ -157,25 +157,25 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
         style={{ backgroundImage: `url(/wood.jpg)` }}
-        className="w-full overflow-hidden rounded-lg cursor-pointer will-change-transform"
+        className="w-full h-[265.12px] md:h-[500px] lg:h-[946.85px] p-8 bg-[#F3F3F1] relative overflow-hidden cursor-pointer bg-cover bg-center bg-no-repeat will-change-transform"
       >
         <motion.div
           variants={innerContentVariants}
-          className="w-full will-change-transform"
+          className="absolute inset-0 p-10 will-change-transform"
         >
           {isLoaded && animationData ? (
             <motion.div
               initial={{ opacity: 0, scale: 1.1 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
+              className="w-full h-full"
             >
               <Lottie
                 lottieRef={lottieRef}
                 animationData={animationData}
                 loop={true}
                 autoplay={isInView}
-                className="w-full"
-                style={{ height: '100%' }}
+                className="w-full h-full"
                 rendererSettings={{
                   preserveAspectRatio: 'xMidYMid slice',
                   progressiveLoad: true,
@@ -183,7 +183,9 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
               />
             </motion.div>
           ) : (
-            <AnimationSkeleton />
+            <div className="w-full h-full">
+              <AnimationSkeleton />
+            </div>
           )}
         </motion.div>
       </motion.div>
