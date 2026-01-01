@@ -1,12 +1,12 @@
 'use client';
 
 import { useRef, useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { gsap, ScrollTrigger } from '../animations/utils/gsapConfig';
 import RevealText from '../animations/components/RevealText';
 import MagneticButton from '../animations/components/MagneticButton';
-import Image from 'next/image';
+import Lottie, { LottieRefCurrentProps } from 'lottie-react';
 
 interface SelectedWorksProps {
   onSmoothScroll: (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, targetId: string) => void;
@@ -16,32 +16,90 @@ const projects = [
   {
     name: 'RENI AI',
     tags: '/ REAL ESTATE / DISCOVERY / PRODUCT DESIGN / PRODUCT MANAGEMENT',
-    image: '/reni.png',
+    animation: '/RENI-COVER.json',
   },
   {
     name: 'ENVOYX',
     tags: '/ FINTECH / AI / PRODUCT DESIGN / MVP DEV /',
-    image: '/envoyx.png',
+    animation: '/ENVOYX-COVER.json',
   },
   {
     name: 'ARLENZ',
     tags: '/ FINTECH / AI / PRODUCT DESIGN /',
-    image: '/arlenz.png',
+    animation: '/ARLENZ-COVER.json',
   },
   {
     name: 'WAGA',
     tags: '/ REAL ESTATE / PRODUCT DESIGN / MVP DEV /',
-    image: '/waga.png',
+    animation: '/WAGA-COVER.json',
   },
 ];
+
+// Shimmer loading skeleton component
+function AnimationSkeleton() {
+  return (
+    <motion.div 
+      className="w-full h-full bg-[#2a2a2a] rounded-lg flex items-center justify-center"
+      animate={{
+        opacity: [0.5, 0.8, 0.5],
+      }}
+      transition={{
+        duration: 1.5,
+        repeat: Infinity,
+        ease: 'easeInOut',
+      }}
+    >
+      <motion.div
+        className="text-gray-400 text-sm"
+        animate={{
+          opacity: [0.3, 0.6, 0.3],
+        }}
+        transition={{
+          duration: 1.5,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+      >
+        Loading...
+      </motion.div>
+    </motion.div>
+  );
+}
 
 export default function SelectedWorks({ onSmoothScroll }: SelectedWorksProps) {
   const router = useRouter();
   const sectionRef = useRef<HTMLElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
+  const lottieRef = useRef<LottieRefCurrentProps>(null);
   const [isHovering, setIsHovering] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [animations, setAnimations] = useState<Record<number, any>>({});
+  const [loadedAnimations, setLoadedAnimations] = useState<Record<number, boolean>>({});
+
+  // Load animation data for current project
+  useEffect(() => {
+    if (!loadedAnimations[currentIndex] && !animations[currentIndex]) {
+      fetch(projects[currentIndex].animation)
+        .then(res => res.json())
+        .then(data => {
+          setAnimations(prev => ({ ...prev, [currentIndex]: data }));
+          setLoadedAnimations(prev => ({ ...prev, [currentIndex]: true }));
+        })
+        .catch(err => console.error(`Failed to load animation for ${projects[currentIndex].name}:`, err));
+    }
+  }, [currentIndex, loadedAnimations, animations]);
+
+  // Play/pause animation when project changes
+  useEffect(() => {
+    // Small delay to ensure Lottie component is mounted
+    const timer = setTimeout(() => {
+      if (lottieRef.current && animations[currentIndex]) {
+        lottieRef.current.play();
+      }
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [currentIndex, animations]);
 
   useEffect(() => {
     if (!sectionRef.current || !progressRef.current) return;
@@ -208,7 +266,7 @@ export default function SelectedWorks({ onSmoothScroll }: SelectedWorksProps) {
               onClick={handleViewClick}
               data-cursor="view"
             >
-              {/* Project Image */}
+              {/* Project Animation */}
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentIndex}
@@ -222,12 +280,30 @@ export default function SelectedWorks({ onSmoothScroll }: SelectedWorksProps) {
                     transition: 'transform 1.2s cubic-bezier(0.22, 1, 0.36, 1)',
                   }}
                 >
-                  <Image
-                    src={currentProject.image}
-                    alt={currentProject.name}
-                    fill
-                    className="object-cover px-20 py-20"
-                  />
+                  {loadedAnimations[currentIndex] && animations[currentIndex] ? (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 1.1 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.6, ease: "easeOut" }}
+                      className="w-full h-full"
+                    >
+                      <Lottie
+                        lottieRef={lottieRef}
+                        animationData={animations[currentIndex]}
+                        loop={true}
+                        autoplay={true}
+                        className="w-full h-full"
+                        rendererSettings={{
+                          preserveAspectRatio: 'xMidYMid slice',
+                          progressiveLoad: true,
+                        }}
+                      />
+                    </motion.div>
+                  ) : (
+                    <div className="w-full h-full">
+                      <AnimationSkeleton />
+                    </div>
+                  )}
                 </motion.div>
               </AnimatePresence>
 
