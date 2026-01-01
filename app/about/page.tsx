@@ -13,10 +13,15 @@ const projects = [
     tags: '/ AI / PRODUCT DESIGN /',
     image: '/reni.png',
     client: 'RENI AI',
-    industry: 'Real Estate',
+    industry: 'AI',
     year: '2025',
     services: 'Product Design',
-    overview: 'AI agent builder for hospitality industry'
+    overview: 'AI agent builder for hospitality industry',
+    tagList: ['Fintech'],
+    discoverLabel: 'Discover',
+    heading: '',
+    description: '',
+    linkText: ''
   },
   {
     name: 'ENVOYX',
@@ -25,8 +30,13 @@ const projects = [
     client: 'ENVOYX',
     industry: 'Fintech',
     year: '2025',
-    services: 'Product Design',
-    overview: 'Invoice financing infrastructure for SMEs'
+    services: 'Product Design MVP Dev',
+    overview: 'Invoice financing infrastructure for SMEs',
+    tagList: ['Fintech', 'AI', 'Insuretech'],
+    discoverLabel: 'Explore',
+    heading: 'Unlocking Liquidity Trapped in Receivables',
+    description: 'We began by building an AI-powered claims verification system to help insurers reduce the heavy manual work behind health insurance claims cutting repayment delays that stretched up to 45 days. As we learned more about the ecosystem, a bigger bottleneck became clear: SMEs were struggling with cash flow while waiting on unpaid invoices. That insight led to a pivot toward an alternative payment and financing platform that enables businesses to convert pending receivables into working capital within 24–48 hours.',
+    linkText: 'View all projects'
   },
   {
     name: 'ARLENZ',
@@ -36,7 +46,12 @@ const projects = [
     industry: 'Fintech',
     year: '2025',
     services: 'Product Design',
-    overview: 'Personal finance & portfolio management'
+    overview: 'Personal finance & portfolio management',
+    tagList: ['Fintech'],
+    discoverLabel: 'Explore',
+    heading: '',
+    description: '',
+    linkText: ''
   },
   {
     name: 'WAGA',
@@ -46,7 +61,12 @@ const projects = [
     industry: 'Real Estate',
     year: '2025',
     services: 'Product Design',
-    overview: 'AI-powered financial intelligence platform'
+    overview: 'AI-powered financial intelligence platform',
+    tagList: ['Real Estate', 'Product Design', 'MVP Development'],
+    discoverLabel: 'Discover',
+    heading: '',
+    description: '',
+    linkText: ''
     },
 ];
 const services = [
@@ -64,7 +84,7 @@ const stats = [
 
 export default function CaseStudyPage() {
   const searchParams = useSearchParams();
-  const [selectedProject, setSelectedProject] = useState(projects[0]);
+  const [selectedProject, setSelectedProject] = useState(projects.find(p => p.name === 'ENVOYX') || projects[0]);
 
   useEffect(() => {
     const projectParam = searchParams.get('project');
@@ -74,9 +94,9 @@ export default function CaseStudyPage() {
       
       // Map URL parameters to project names
       const projectMap: { [key: string]: string } = {
+        'envoyx': 'ENVOYX',
         'reni-ai': 'RENI AI',
         'reni': 'RENI AI',
-        'envoyx': 'ENVOYX',
         'arlenz': 'ARLENZ',
         'waga': 'WAGA',
       };
@@ -132,7 +152,7 @@ export default function CaseStudyPage() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="flex flex-wrap gap-5"
             >
-              {['Product Design', 'MVP Development', 'Landing Page'].map((tag, idx) => (
+              {selectedProject.tagList.map((tag, idx) => (
                 <span
                   key={idx}
                   className="px-[14.67px] py-[7.33px] bg-[#E6E6E6] rounded-[14.67px] text-[12px] md:text-[14px] font-medium text-[#191919]"
@@ -167,7 +187,11 @@ export default function CaseStudyPage() {
               <div className="w-full md:w-auto lg:w-[300px] flex flex-row pt-[15px]">
                 <div className="flex flex-col">
                   <div className="flex flex-col">
-                    <span
+                    <motion.span
+                      key={`discover-${selectedProject.name}`}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.5 }}
                       className="text-[14px] md:text-[16px] lg:text-[18px] leading-[1.4em] tracking-[-0.02em]"
                       style={{
                         fontFamily: 'Manrope, sans-serif',
@@ -175,8 +199,8 @@ export default function CaseStudyPage() {
                         color: 'rgba(255, 255, 255, 0.4)'
                       }}
                     >
-                      Discover
-                    </span>
+                      {selectedProject.discoverLabel}
+                    </motion.span>
                   </div>
                 </div>
               </div>
@@ -184,8 +208,13 @@ export default function CaseStudyPage() {
               {/* Right Column */}
               <div className="flex-1 flex flex-col justify-center gap-8 md:gap-12 lg:gap-16">
                 {/* Heading */}
-                <div className="flex flex-col">
-                  <h2
+             { selectedProject.heading && (
+               <div className="flex flex-col">
+                  <motion.h2
+                    key={`heading-${selectedProject.name}`}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
                     className="text-[28px] md:text-[36px] lg:text-[42px] xl:text-[48px] mt-4 md:mt-6 lg:mt-10 leading-[1.2em] tracking-[-0.04167em]"
                     style={{
                       fontFamily: 'Geist, sans-serif',
@@ -193,13 +222,20 @@ export default function CaseStudyPage() {
                       color: '#FFFFFF'
                     }}
                   >
-                    Understanding the Needs of Today's Online Shoppers
-                  </h2>
-                </div>
+                    {selectedProject.heading}
+                  </motion.h2>
+                  </div>
+               )
+             }
 
                 {/* Description */}
-                <div className="w-full max-w-full lg:max-w-[660px] flex flex-col">
-                  <p
+                { selectedProject.description && (
+                    <div className="w-full max-w-full lg:max-w-[660px] flex flex-col">
+                  <motion.p
+                    key={`description-${selectedProject.name}`}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.1 }}
                     className="text-[16px] md:text-[18px] lg:text-[20px] leading-[1.4em] tracking-[-0.02em]"
                     style={{
                       fontFamily: 'Geist, sans-serif',
@@ -207,12 +243,20 @@ export default function CaseStudyPage() {
                       color: 'rgba(255, 255, 255, 0.6)'
                     }}
                   >
-                    Dive into our diverse collection of innovative projects, where creativity meets cutting-edge technology to solve real-world challenges.
-                  </p>
+                    {selectedProject.description}
+                  </motion.p>
                 </div>
-
+                )
+              }
                 {/* All Projects Link */}
-                <div className="flex flex-row items-center gap-2 pb-1 relative">
+            { selectedProject.linkText && (
+                <motion.div
+                  key={`link-${selectedProject.name}`}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  className="flex flex-row items-center gap-2 pb-1 relative"
+                >
                   <span
                     className="text-[16px] md:text-[18px] lg:text-[20px] leading-[1.4em] tracking-[-0.02em]"
                     style={{
@@ -221,14 +265,15 @@ export default function CaseStudyPage() {
                       color: '#FFFFFF'
                     }}
                   >
-                    All projects
+                    {selectedProject.linkText}
                   </span>
                   <div className="w-4 h-4 md:w-5 md:h-5">
                     <Image src="/arrow.svg" alt="arrow" width={14} height={14} />
                   </div>
                   <div className="absolute bottom-0 left-0 w-full md:w-[129px] h-[1px] bg-white"></div>
-                </div>
-
+                </motion.div>
+              )
+            }
                 {/* Services Wrapper */}
                 <div className="flex flex-col">
                   {/* Client */}
@@ -354,182 +399,24 @@ export default function CaseStudyPage() {
                     </div>
                     <div className="absolute bottom-0 left-0 w-full lg:w-[900px] h-[1px] border-b border-[rgba(151,151,151,0.2)]"></div>
                   </div>
+                      <div className="flex flex-col gap-4 jutify-end items-end mt-10">
+                        <span
+                          className="text-[20px] md:text-[24px] lg:text-[28px] xl:text-[32px] leading-[1.4em] tracking-[-0.0625em]"
+                          style={{
+                            fontFamily: 'Geist, sans-serif',
+                            fontWeight: 400,
+                            color: 'rgba(255, 255, 255, 0.6)'
+                          }}
+                        >
+                          Project still WIP
+                        </span>
+                        <Image src="/stoll.svg" alt="info" width={60} height={60} />
+                      </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Second Section */}
-          <div className="w-full flex flex-col md:flex-row md:justify-center gap-6 md:gap-8 lg:gap-12 xl:gap-[200px]">
-            {/* Heading Wrapper */}
-            <div className="w-full flex flex-col md:flex-row md:justify-center gap-6 md:gap-8 lg:gap-12 xl:gap-[200px]">
-              {/* Left Column */}
-              <div className="w-full md:w-auto lg:w-[300px] flex flex-row pt-[15px]">
-                <div className="flex flex-col">
-                  <div className="flex flex-col">
-                    <span
-                      className="text-[14px] md:text-[16px] lg:text-[18px] leading-[1.4em] tracking-[-0.02em]"
-                      style={{
-                        fontFamily: 'Manrope, sans-serif',
-                        fontWeight: 500,
-                        color: 'rgba(255, 255, 255, 0.4)'
-                      }}
-                    >
-                      Section Title
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Column */}
-              <div className="flex-1 flex flex-col justify-center gap-8 md:gap-12 lg:gap-16 w-full ">
-                {/* Heading */}
-                <div className="flex flex-col">
-                  <h2
-                    className="text-[28px] md:text-[36px] lg:text-[42px] xl:text-[48px] leading-[1.2em] tracking-[-0.04167em]"
-                    style={{
-                      fontFamily: 'Geist, sans-serif',
-                      fontWeight: 600,
-                      color: '#FFFFFF'
-                    }}
-                  >
-                    Whether it's a website, an app, or a complete brand identity - we create work that works.
-                  </h2>
-                </div>
-
-                {/* Description */}
-                <div className="w-full flex flex-col">
-                  <p
-                    className="text-[16px] md:text-[18px] lg:text-[20px] leading-[1.4em] tracking-[-0.02em]"
-                    style={{
-                      fontFamily: 'Geist, sans-serif',
-                      fontWeight: 500,
-                      color: 'rgba(255, 255, 255, 0.6)'
-                    }}
-                  >
-                    Dive into our diverse collection of innovative projects, where creativity meets cutting-edge technology to solve real-world challenges.
-                  </p>
-                </div>
-
-                {/* Stats Section */}
-                <div className="w-full flex flex-col sm:flex-row justify-center gap-8 md:gap-12 lg:gap-16 xl:gap-24">
-                  {/* Stat 1 */}
-                  <div className="w-full sm:w-auto sm:min-w-[180px] md:w-[200px] lg:w-[236px] flex flex-col gap-2 md:gap-[11px]">
-                    <div className="flex flex-row items-center gap-1">
-                      <span
-                        className="text-[48px] md:text-[64px] lg:text-[72px] xl:text-[80px] leading-[1.2em] tracking-[-0.024em]"
-                        style={{
-                          fontFamily: 'Inter, sans-serif',
-                          fontWeight: 500,
-                          color: '#FFFFFF'
-                        }}
-                      >
-                        95
-                      </span>
-                      <span
-                        className="text-[48px] md:text-[64px] lg:text-[72px] xl:text-[80px] leading-[1.2em] tracking-[-0.024em]"
-                        style={{
-                          fontFamily: 'Inter, sans-serif',
-                          fontWeight: 500,
-                          color: '#FFFFFF'
-                        }}
-                      >
-                        %
-                      </span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span
-                        className="text-[14px] md:text-[16px] lg:text-[18px] leading-[1.4em] tracking-[-0.02em]"
-                        style={{
-                          fontFamily: 'Manrope, sans-serif',
-                          fontWeight: 500,
-                          color: 'rgba(255, 255, 255, 0.6)'
-                        }}
-                      >
-                        Client retention
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Stat 2 */}
-                  <div className="w-full sm:w-auto sm:min-w-[180px] md:w-[200px] lg:w-[236px] flex flex-col gap-2 md:gap-[11px]">
-                    <div className="flex flex-row items-center gap-1">
-                      <span
-                        className="text-[48px] md:text-[64px] lg:text-[72px] xl:text-[80px] leading-[1.2em] tracking-[-0.024em]"
-                        style={{
-                          fontFamily: 'Inter, sans-serif',
-                          fontWeight: 500,
-                          color: '#FFFFFF'
-                        }}
-                      >
-                        95
-                      </span>
-                      <span
-                        className="text-[48px] md:text-[64px] lg:text-[72px] xl:text-[80px] leading-[1.2em] tracking-[-0.024em]"
-                        style={{
-                          fontFamily: 'Inter, sans-serif',
-                          fontWeight: 500,
-                          color: '#FFFFFF'
-                        }}
-                      >
-                        %
-                      </span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span
-                        className="text-[14px] md:text-[16px] lg:text-[18px] leading-[1.4em] tracking-[-0.02em]"
-                        style={{
-                          fontFamily: 'Manrope, sans-serif',
-                          fontWeight: 500,
-                          color: 'rgba(255, 255, 255, 0.6)'
-                        }}
-                      >
-                        Client retention
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Stat 3 */}
-                  <div className="w-full sm:w-auto sm:min-w-[180px] md:w-[200px] lg:w-[236px] flex flex-col gap-2 md:gap-[11px]">
-                    <div className="flex flex-row items-center gap-1">
-                      <span
-                        className="text-[48px] md:text-[64px] lg:text-[72px] xl:text-[80px] leading-[1.2em] tracking-[-0.024em]"
-                        style={{
-                          fontFamily: 'Inter, sans-serif',
-                          fontWeight: 500,
-                          color: '#FFFFFF'
-                        }}
-                      >
-                        95
-                      </span>
-                      <span
-                        className="text-[48px] md:text-[64px] lg:text-[72px] xl:text-[80px] leading-[1.2em] tracking-[-0.024em]"
-                        style={{
-                          fontFamily: 'Inter, sans-serif',
-                          fontWeight: 500,
-                          color: '#FFFFFF'
-                        }}
-                      >
-                        %
-                      </span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span
-                        className="text-[14px] md:text-[16px] lg:text-[18px] leading-[1.4em] tracking-[-0.02em]"
-                        style={{
-                          fontFamily: 'Manrope, sans-serif',
-                          fontWeight: 500,
-                          color: 'rgba(255, 255, 255, 0.6)'
-                        }}
-                      >
-                        Client retention
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
         </div>
       </section>

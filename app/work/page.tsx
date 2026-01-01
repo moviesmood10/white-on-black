@@ -4,145 +4,32 @@ import { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import Start from '../components/Start';
 import { handleSmoothScroll } from '../utils/smoothScroll';
-import Image from 'next/image';
+import Lottie from 'lottie-react';
 import { gsap, ScrollTrigger } from '../animations/utils/gsapConfig';
 
 const projects = [
   {
     name: 'RENI AI',
     tags: '/ AI / PRODUCT DESIGN /',
-    image: '/reni.png',
+    animation: '/RENI-COVER.json',
   },
   {
     name: 'ENVOYX',
     tags: '/ FINTECH / AI / PRODUCT DESIGN / MVP DEV / ',
-    image: '/envoyx.png',
+    animation: '/ENVOYX-COVER.json',
   },
   {
     name: 'ARLENZ',
     tags: '/ FINTECH / AI / PRODUCT DESIGN /',
-    image: '/arlenz.png',
+    animation: '/ARLENZ-COVER.json',
   },
   {
     name: 'WAGA',
     tags: '/ REAL ESTATE / PRODUCT DESIGN / MVP DEV / ',
-    image: '/waga.png',
+    animation: '/WAGA-COVER.json',
   },
 ];
 
-function StickyProjectsSection() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start start', 'end end'],
-  });
-
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-  });
-
-  // Image scale animation
-  const imageScale = useTransform(smoothProgress, [0, 0.5, 1], [1, 1.05, 1]);
-
-  // Calculate active index based on scroll progress
-  useEffect(() => {
-    const unsubscribe = scrollYProgress.on('change', (latest) => {
-      // Divide scroll into equal sections for each project
-      const sectionSize = 1 / projects.length;
-      const newIndex = Math.min(
-        Math.floor(latest / sectionSize),
-        projects.length - 1
-      );
-      if (newIndex !== activeIndex && newIndex >= 0) {
-        setActiveIndex(newIndex);
-      }
-    });
-
-    return () => unsubscribe();
-  }, [scrollYProgress, activeIndex]);
-
-  return (
-    <div
-      ref={sectionRef}
-      className="relative w-full"
-      style={{ height: `${projects.length * 100}vh` }}
-    >
-      {/* Sticky Image Container */}
-      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
-        <motion.div
-          className="relative w-full h-[300px] md:h-[500px] lg:h-[700px] xl:h-[80vh] mx-6 md:mx-10 lg:mx-[164px]"
-          style={{
-            backgroundColor: '#F3F3F1',
-            borderRadius: '17.598px',
-            scale: imageScale,
-          }}
-        >
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeIndex}
-              initial={{ opacity: 0, scale: 1.1 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-0"
-            >
-              <Image
-                src={projects[activeIndex].image}
-                alt={projects[activeIndex].name}
-                fill
-                className="object-cover rounded-[17.598px]"
-              />
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Project Counter */}
-          <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8 z-10">
-            <span className="text-white/70 text-[14px] md:text-[16px] font-medium bg-black/30 backdrop-blur-sm px-3 py-1.5 rounded-full">
-              {String(activeIndex + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
-            </span>
-          </div>
-
-          {/* Active Project Info Overlay */}
-          <motion.div
-            className="absolute bottom-6 right-6 md:bottom-8 md:right-8 z-10 text-right"
-            key={`info-${activeIndex}`}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <h3
-              className="text-[24px] md:text-[32px] lg:text-[40px] text-white font-semibold"
-              style={{ fontFamily: 'Manrope, sans-serif', letterSpacing: '-0.04em' }}
-            >
-              {projects[activeIndex].name}
-            </h3>
-            <p className="text-white/60 text-[12px] md:text-[14px] mt-1">
-              {projects[activeIndex].tags}
-            </p>
-          </motion.div>
-        </motion.div>
-      </div>
-
-      {/* Side Navigation Dots */}
-      <div className="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col gap-3">
-        {projects.map((_, i) => (
-          <motion.div
-            key={i}
-            className="w-2 h-2 rounded-full bg-white cursor-pointer"
-            animate={{
-              opacity: i === activeIndex ? 1 : 0.3,
-              scale: i === activeIndex ? 1.5 : 1,
-            }}
-            transition={{ duration: 0.3 }}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
 
 function ScrollProgress() {
   const { scrollYProgress } = useScroll();
@@ -157,6 +44,26 @@ function ScrollProgress() {
 }
 
 export default function CaseStudyPage() {
+  const [animations, setAnimations] = useState<Record<number, any>>({});
+
+  // Load animation data
+  useEffect(() => {
+    const loadAnimations = async () => {
+      const loaded: Record<number, any> = {};
+      for (let i = 0; i < projects.length; i++) {
+        try {
+          const response = await fetch(projects[i].animation);
+          const data = await response.json();
+          loaded[i] = data;
+        } catch (error) {
+          console.error(`Failed to load animation for ${projects[i].name}:`, error);
+        }
+      }
+      setAnimations(loaded);
+    };
+    loadAnimations();
+  }, []);
+
   const onSmoothScroll = (
     e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>,
     targetId: string
@@ -232,8 +139,70 @@ export default function CaseStudyPage() {
           </div>
         </div>
 
-        {/* Sticky Scrollytelling Section */}
-        <StickyProjectsSection />
+        <div className="w-full flex flex-col gap-5 w-full py-[72px] px-6 md:py-[80px] md:px-10 lg:py-[100px] lg:px-[164px] 2xl:max-w-[1920px] 2xl:mx-auto">
+            {projects.map((project, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                className="w-full flex flex-col gap-5"
+
+              >
+                {/* Project Animation - Mobile: 265.12px, Tablet: 500px, Desktop: 946.85px */}
+                <motion.div
+                  whileHover={{ scale: 1.01 }}
+                  transition={{ duration: 0.3 }}
+                  style={{ backgroundImage: `url(/wood.jpg)` }}
+                  className="w-full"
+                >
+                  <div className=" w-full">
+                    {animations[idx] ? (
+                      <Lottie
+                        animationData={animations[idx]}
+                        loop={true}
+                        autoplay={true}
+                        className="w-full"
+                        style={{ height: '100%' }}
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <div className="text-gray-400">Loading...</div>
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+
+                {/* Project Info */}
+                <div className="w-full flex flex-row justify-between items-center gap-2 flex-wrap">
+                  {/* Mobile: 24px, Tablet: 32px, Desktop: 40px */}
+                  <h3 
+                    className="text-[24px] md:text-[32px] lg:text-[40px] font-semibold leading-[1.4em] tracking-[-0.078em] md:tracking-[-0.047em] text-white"
+                    style={{ fontFamily: 'Manrope, sans-serif' }}
+                  >
+                    {project.name}
+                  </h3>
+                  {/* Tags as pill on mobile, text on tablet+ */}
+                  <span 
+                    className="hidden md:inline text-[16px] lg:text-[18px] font-medium leading-[1.4em] tracking-[-0.02em] text-white/40"
+                    style={{ fontFamily: 'Manrope, sans-serif' }}
+                  >
+                    {project.tags}
+                  </span>
+                  {/* Mobile tag pill */}
+                  <div className="md:hidden flex items-center gap-3">
+                    <span 
+                      className="px-[14.67px] py-[7.33px] bg-[#404040] rounded-[14.67px] text-[12px] font-medium text-white"
+                      style={{ fontFamily: 'Manrope, sans-serif' }}
+                    >
+                      {project.tags.split('/').filter(t => t.trim())[0]?.trim()}
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
       </div>
       <div className='pb-20 '>
         <Start onSmoothScroll={onSmoothScroll} />
