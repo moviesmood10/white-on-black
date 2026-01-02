@@ -2,16 +2,18 @@
 
 import { motion } from 'framer-motion';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState, Suspense, useRef } from 'react';
 import Start from '../components/Start';
 import { handleSmoothScroll } from '../utils/smoothScroll';
 import Image from 'next/image';
+import Lottie, { LottieRefCurrentProps } from 'lottie-react';
 
 const projects = [
   {
     name: 'RENI AI',
     tags: '/ AI / PRODUCT DESIGN /',
     image: '/reni.png',
+    animation: '/RENI-COVER.json',
     client: 'RENI AI',
     industry: 'AI',
     year: '2025',
@@ -27,6 +29,7 @@ const projects = [
     name: 'ENVOYX',
     tags: '/ FINTECH / AI / PRODUCT DESIGN / MVP DEV / ',
     image: '/envoyx.png',
+    animation: '/ENVOYX-COVER.json',
     client: 'ENVOYX',
     industry: 'Fintech',
     year: '2025',
@@ -42,6 +45,7 @@ const projects = [
     name: 'ARLENZ',
     tags: '/ FINTECH / AI / PRODUCT DESIGN /',
     image: '/arlenz.png',
+    animation: '/ARLENZ-COVER.json',
     client: 'ARLENZ',
     industry: 'Fintech',
     year: '2025',
@@ -57,6 +61,7 @@ const projects = [
     name: 'WAGA',
     tags: '/ REAL ESTATE / PRODUCT DESIGN / MVP DEV / ',
     image: '/waga.png',
+    animation: '/WAGA-COVER.json',
     client: 'WAGA',
     industry: 'Real Estate',
     year: '2025',
@@ -69,6 +74,37 @@ const projects = [
     linkText: ''
     },
 ];
+
+// Shimmer loading skeleton component
+function AnimationSkeleton() {
+  return (
+    <motion.div 
+      className="w-full h-full bg-[#2a2a2a] rounded-lg flex items-center justify-center"
+      animate={{
+        opacity: [0.5, 0.8, 0.5],
+      }}
+      transition={{
+        duration: 1.5,
+        repeat: Infinity,
+        ease: 'easeInOut',
+      }}
+    >
+      <motion.div
+        className="text-gray-400 text-sm"
+        animate={{
+          opacity: [0.3, 0.6, 0.3],
+        }}
+        transition={{
+          duration: 1.5,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+      >
+        Loading...
+      </motion.div>
+    </motion.div>
+  );
+}
 const services = [
   { title: 'Product Design' },
   { title: 'Development' },
@@ -85,6 +121,9 @@ const stats = [
 function CaseStudyContent() {
   const searchParams = useSearchParams();
   const [selectedProject, setSelectedProject] = useState(projects.find(p => p.name === 'ENVOYX') || projects[0]);
+  const lottieRef = useRef<LottieRefCurrentProps>(null);
+  const [animationData, setAnimationData] = useState<any>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const projectParam = searchParams.get('project');
@@ -108,9 +147,25 @@ function CaseStudyContent() {
       );
       if (foundProject) {
         setSelectedProject(foundProject);
+        // Reset animation state when project changes
+        setAnimationData(null);
+        setIsLoaded(false);
       }
     }
   }, [searchParams]);
+
+  // Load animation data when project changes
+  useEffect(() => {
+    if (selectedProject.animation && !isLoaded) {
+      fetch(selectedProject.animation)
+        .then(res => res.json())
+        .then(data => {
+          setAnimationData(data);
+          setIsLoaded(true);
+        })
+        .catch(err => console.error(`Failed to load animation for ${selectedProject.name}:`, err));
+    }
+  }, [selectedProject, isLoaded]);
 
   const onSmoothScroll = (
     e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>,
@@ -169,15 +224,34 @@ function CaseStudyContent() {
         <div className="w-full flex flex-col gap-12 md:gap-16 lg:gap-20 xl:gap-[100px]">
           {/* First Section */}
           <div className="w-full flex flex-col gap-6 md:gap-8 lg:gap-10">
-            {/* Image Container */}
+            {/* Animation Container */}
             <div className="w-full flex flex-col gap-5 justify-center">
               <div className="w-full h-[300px] md:h-[500px] lg:h-[700px] xl:h-[946.85px] relative overflow-hidden">
-                <Image
-                  src={selectedProject.image}
-                  alt={selectedProject.name}
-                  fill
-                  className="object-contain rounded-[17.598px]"
-                />
+                {isLoaded && animationData ? (
+                  <motion.div
+                    key={selectedProject.name}
+                    initial={{ opacity: 0, scale: 1.05 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                    className="w-full h-full"
+                  >
+                    <Lottie
+                      lottieRef={lottieRef}
+                      animationData={animationData}
+                      loop={true}
+                      autoplay={true}
+                      className="w-full h-full rounded-[17.598px]"
+                      rendererSettings={{
+                        preserveAspectRatio: 'xMidYMid slice',
+                        progressiveLoad: true,
+                      }}
+                    />
+                  </motion.div>
+                ) : (
+                  <div className="w-full h-full">
+                    <AnimationSkeleton />
+                  </div>
+                )}
               </div>
             </div>
 
