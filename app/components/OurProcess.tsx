@@ -138,7 +138,7 @@ export default function OurProcess({ onSmoothScroll }: OurProcessProps) {
               )}
             </div>
 
-            <div className="flex flex-col md:flex-row gap-8 md:gap-12 lg:gap-16">
+            <div className="flex flex-col md:flex-row gap-8 md:gap-12 lg:gap-16 max-w-[1070px] mx-auto">
               <div className="flex flex-col justify-center gap-4 w-full md:w-[400px] lg:w-[560px]">
                 {steps.map((step, idx) => {
                   const MotionWrapper = isMobile ? 'div' : motion.div;

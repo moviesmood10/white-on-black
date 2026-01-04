@@ -130,7 +130,7 @@ export default function SelectedWorks({ onSmoothScroll }: SelectedWorksProps) {
   const handleViewClick = (e: React.MouseEvent) => {
     e.preventDefault();
     const projectName = projects[currentIndex].name.toLowerCase().replace(/\s+/g, '-');
-    router.push(`/about?project=${projectName}`);
+    router.push(`/toolkit?project=${projectName}`);
   };
 
   const currentProject = projects[currentIndex];

@@ -3,6 +3,7 @@
 import { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { usePathname, useRouter } from 'next/navigation';
 import { gsap, ScrollTrigger } from '../animations/utils/gsapConfig';
 import RevealText from '../animations/components/RevealText';
 import MagneticButton from '../animations/components/MagneticButton';
@@ -13,6 +14,8 @@ interface StartProps {
 
 export default function Start({ onSmoothScroll }: StartProps) {
   const sectionRef = useRef<HTMLElement>(null);
+  const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -73,10 +76,17 @@ export default function Start({ onSmoothScroll }: StartProps) {
           >
            <MagneticButton
                     as="a"
-                    href="#book-call"
+                    href={pathname === '/work' ? '/research' : '#book-call'}
                     strength={0.3}
                     radius={100}
-                    onClick={(e) => onSmoothScroll(e as React.MouseEvent<HTMLAnchorElement>, '#book-call')}
+                    onClick={(e) => {
+                      if (pathname === '/work') {
+                        e.preventDefault();
+                        router.push('/research');
+                      } else {
+                        onSmoothScroll(e as React.MouseEvent<HTMLAnchorElement>, '#book-call');
+                      }
+                    }}
                     className="inline-flex items-center gap-2 hover-underline text-[32px] font-normal leading-[1.5em] tracking-[-0.04em] text-[#191919] group"
                     style={{ fontFamily: 'Geist, sans-serif' }}
                   >

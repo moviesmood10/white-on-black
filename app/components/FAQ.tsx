@@ -93,6 +93,7 @@ export default function FAQ({ onSmoothScroll }: FAQProps) {
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
+              onClick={(e) => { e.preventDefault(); onSmoothScroll(e as unknown as React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, '#book-call'); }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-[16px] font-normal leading-[1.4em] tracking-[-0.02em] text-[#191919]/60 text-center w-full md:w-full lg:w-[484px]"
