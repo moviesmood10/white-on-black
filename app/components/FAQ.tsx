@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { gsap } from '../animations/utils/gsapConfig';
 import RevealText from '../animations/components/RevealText';
 import MagneticButton from '../animations/components/MagneticButton';
@@ -51,6 +52,7 @@ const faqData: FAQItem[] = [
 ];
 
 export default function FAQ({ onSmoothScroll }: FAQProps) {
+  const router = useRouter();
   const [openFAQIndex, setOpenFAQIndex] = useState<number | null>(null);
   const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -187,10 +189,13 @@ export default function FAQ({ onSmoothScroll }: FAQProps) {
           >
             <MagneticButton
               as="a"
-              href="#book-call"
+              href="/research"
               strength={0.35}
               radius={150}
-              onClick={(e) => onSmoothScroll(e as React.MouseEvent<HTMLAnchorElement>, '#book-call')}
+              onClick={(e) => {
+                e.preventDefault();
+                router.push('/research');
+              }}
               className="flex border-b border-[#191919] hover-underline items-center gap-3 text-[24px] md:text-[28px] lg:text-[32px] font-semibold leading-[1.4em] tracking-[-0.04em] text-[#191919] group"
               style={{ fontFamily: 'Manrope, sans-serif' }}
             >
