@@ -18,9 +18,9 @@ export default function OurProcess({ onSmoothScroll }: OurProcessProps) {
 
   const steps = [
     { num: '01', title: 'Discover', desc: 'We analyze your workflows and identify where automation creates the most value for your business.', image: '/flower3.jpg' },
-    { num: '02', title: 'Design', desc: 'We create intuitive interfaces and seamless user experiences tailored to your specific needs.', image: '/flower2.png' },
-    { num: '03', title: 'Build', desc: 'We develop robust, scalable solutions using cutting-edge technologies and best practices.', image: '/flower.png' },
-    { num: '04', title: 'Optimize', desc: 'We continuously improve and refine your product based on user feedback and performance data.', image: '/floewr1.png' },
+    { num: '02', title: 'Design', desc: 'We create intuitive interfaces and seamless user experiences tailored to your specific needs.', image: '/as.jpg' },
+    { num: '03', title: 'Build', desc: 'The product takes shape using the technologies that best fit the problem. Our builds are fast, functional, and designed to scale—without unnecessary complexity.', image: '/flower.jpg' },
+    { num: '04', title: 'Optimize', desc: 'Launch isn’t the finish line. We work closely with product owners to set up feedback loops, measure real-world impact, and continuously refine the product to serve both users and business goals better.', image: '/flo.jpg' },
   ];
 
   // Detect mobile screen size
