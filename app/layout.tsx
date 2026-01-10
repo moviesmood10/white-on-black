@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Manrope, Inter } from "next/font/google";
+import { Geist, Geist_Mono, Manrope, Inter, Comfortaa } from "next/font/google";
+import { Halant, Onest } from "next/font/google";
 import "./globals.css";
-import FontLoader from "./components/FontLoader";
 import AnimationWrapper from "./animations/providers/AnimationWrapper";
 import LayoutWrapper from "./components/LayoutWrapper";
 
@@ -29,6 +29,27 @@ const inter = Inter({
   display: "swap",
 });
 
+const halant = Halant({
+  variable: "--font-halant",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+const onest = Onest({
+  variable: "--font-onest",
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  display: "swap",
+});
+
+const comfortaa = Comfortaa({
+  variable: "--font-comfortaa",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "WOB Studios - Leading Independent Software Product Studio",
   description: "We help forward thinking busy professionals, early stage founders, & businesses turn their ideas into a market & investor ready product.",
@@ -42,9 +63,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${manrope.variable} ${inter.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${manrope.variable} ${inter.variable} ${halant.variable} ${onest.variable} ${comfortaa.variable} antialiased`}
       >
-        <FontLoader />
         <AnimationWrapper>
           <LayoutWrapper>
             {children}

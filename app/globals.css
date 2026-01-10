@@ -31,15 +31,15 @@ body {
 }
 
 .font-halant {
-  font-family: 'Halant', serif;
+  font-family: var(--font-halant), serif;
 }
 
 .font-onest {
-  font-family: 'Onest', sans-serif;
+  font-family: var(--font-onest), sans-serif;
 }
 
 .font-comfortaa {
-  font-family: 'Comfortaa', cursive;
+  font-family: var(--font-comfortaa), cursive;
 }
 
 /* Lenis smooth scroll - disable native smooth scroll */
