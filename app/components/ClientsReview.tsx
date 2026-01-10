@@ -4,6 +4,7 @@ import { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { gsap, ScrollTrigger } from '../animations/utils/gsapConfig';
 import RevealText from '../animations/components/RevealText';
+import LazyBackground from '../animations/components/LazyBackground';
 import Image from 'next/image';
 
 export default function ClientsReview() {
@@ -103,15 +104,13 @@ export default function ClientsReview() {
                 delay: 0.1,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="testimonial-group w-full md:w-[678px] rounded-[28px] overflow-hidden p-1.5 relative"
-              style={{
-                backgroundImage: `url(${group1.backgroundImage})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-              }}
+              className="testimonial-group w-full md:w-[678px] rounded-[28px] overflow-hidden relative"
             >
-              <div className="flex flex-col md:flex-row gap-1.5 h-full">
+              <LazyBackground
+                src={group1.backgroundImage}
+                className="absolute inset-0 rounded-[28px]"
+              />
+              <div className="flex flex-col md:flex-row gap-1.5 h-full p-1.5 relative z-10">
                 {/* Photo Section */}
                 <div className="w-full flex-1 md:w-[330px] h-[300px] md:h-[420px] rounded-[22px] overflow-hidden flex-shrink-0 relative">
                   <div className="w-full h-full rounded-[6px] relative">
@@ -120,6 +119,8 @@ export default function ClientsReview() {
                         src={group1.testimonial.photo}
                         alt={group1.testimonial.name}
                         fill
+                        loading="lazy"
+                        sizes="(max-width: 768px) 100vw, 330px"
                         className="object-cover rounded-[6px]"
                       />
                     ) : (
@@ -173,15 +174,13 @@ export default function ClientsReview() {
                 delay: 0.2,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="testimonial-group w-full md:w-[678px] rounded-[28px] overflow-hidden p-1.5 relative"
-              style={{
-                backgroundImage: `url(${group2.backgroundImage})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-              }}
+              className="testimonial-group w-full md:w-[678px] rounded-[28px] overflow-hidden relative"
             >
-              <div className="flex gap-1.5 h-full">
+              <LazyBackground
+                src={group2.backgroundImage}
+                className="absolute inset-0 rounded-[28px]"
+              />
+              <div className="flex gap-1.5 h-full p-1.5 relative z-10">
                 {group2.testimonials.map((testimonial, idx) => (
                   <div key={idx} className="flex flex-col gap-1.5 flex-1">
                     {/* Quote Card */}

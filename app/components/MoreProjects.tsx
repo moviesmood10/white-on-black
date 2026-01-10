@@ -79,11 +79,13 @@ const MoreProjects = () => {
                                     }}
                                     className="w-full h-auto"
                                 >
-                                    <Image 
-                                        src={project.image} 
-                                        alt="More Projects" 
-                                        width={1000} 
+                                    <Image
+                                        src={project.image}
+                                        alt="More Projects"
+                                        width={1000}
                                         height={1000}
+                                        loading="lazy"
+                                        sizes="(max-width: 768px) 100vw, 50vw"
                                         className="w-full h-auto object-cover"
                                     />
                                 </motion.div>
@@ -119,7 +121,7 @@ const MoreProjects = () => {
                                     }}
                                     transition={{ duration: 0.3 }}
                                 >
-                                    <Image src={project.logo} alt="More Projects" width={100} height={32} />
+                                    <Image src={project.logo} alt="More Projects" width={100} height={32} loading="lazy" />
                                 </motion.div>
                                 <motion.span
                                     whileHover={{ x: 4 }}
@@ -134,7 +136,7 @@ const MoreProjects = () => {
                                         }}
                                         transition={{ duration: 0.3 }}
                                     >
-                                        <Image src="/arrow.svg" alt="More Projects" width={14} height={14} className="brightness-0" />
+                                        <Image src="/arrow.svg" alt="Arrow" width={14} height={14} className="brightness-0" />
                                     </motion.div>
                                 </motion.span>
                             </motion.div>

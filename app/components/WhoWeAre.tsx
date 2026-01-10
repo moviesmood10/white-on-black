@@ -7,6 +7,7 @@ import RevealText from '../animations/components/RevealText';
 import CountUp from '../animations/components/CountUp';
 import InfiniteMarquee from '../animations/components/InfiniteMarquee';
 import MagneticButton from '../animations/components/MagneticButton';
+import LazyBackground from '../animations/components/LazyBackground';
 import Image from 'next/image';
 
 export default function WhoWeAre() {
@@ -97,9 +98,12 @@ export default function WhoWeAre() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="w-full h-auto md:h-auto lg:h-[389px] relative rounded-[28px] overflow-hidden bg-cover bg-center bg-no-repeat"
-              style={{ backgroundImage: 'url(/who.png)' }}
+              className="w-full h-auto md:h-auto lg:h-[389px] relative rounded-[28px] overflow-hidden"
             >
+              <LazyBackground
+                src="/who.png"
+                className="absolute inset-0"
+              >
               <div className="absolute inset-0 flex flex-col md:flex-row items-center justify-center gap-4 p-6 md:p-10 lg:p-16">
                 {stats.map((stat, idx) => (
                   <motion.div
@@ -136,6 +140,7 @@ export default function WhoWeAre() {
                   </motion.div>
                 ))}
               </div>
+              </LazyBackground>
             </motion.div>
 
             {/* Logo Marquee */}
@@ -158,7 +163,7 @@ export default function WhoWeAre() {
                       key={idx}
                       className="h-[32px] w-[100px] md:w-[120px] mx-4 md:mx-6 rounded-lg flex items-center justify-center font-medium transition-colors"
                     >
-                      <Image src={logo} alt={`Logo ${idx + 1}`} width={120} height={32} />
+                      <Image src={logo} alt={`Logo ${idx + 1}`} width={120} height={32} loading="lazy" />
                     </div>
                   ))}
                 </InfiniteMarquee>

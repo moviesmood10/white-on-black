@@ -90,7 +90,7 @@ export default function Start({ onSmoothScroll }: StartProps) {
                     className="inline-flex items-center gap-2 hover-underline text-[32px] font-normal leading-[1.5em] tracking-[-0.04em] text-[#191919] group"
                     style={{ fontFamily: 'Geist, sans-serif' }}
                   >
-                   <img src="/arr.svg" alt="arrow" width={20} height={20} />
+                   <Image src="/arr.svg" alt="arrow" width={20} height={20} />
                     <span className="">Book a free discovery call</span>
                   </MagneticButton>
           </motion.div>

@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import { gsap, ScrollTrigger } from '../animations/utils/gsapConfig';
 import RevealText from '../animations/components/RevealText';
 import MagneticButton from '../animations/components/MagneticButton';
@@ -221,7 +222,7 @@ export default function OurProcess({ onSmoothScroll }: OurProcessProps) {
                     ref={imageRef}
                     className="w-full h-[250px] md:h-[280px] lg:h-[323.55px] rounded-[28px] relative overflow-hidden"
                   >
-                    <img src={steps[activeStep].image} alt="process" className="w-full h-full object-cover" />
+                    <Image src={steps[activeStep].image} alt="process" fill className="object-cover" loading="lazy" sizes="(max-width: 768px) 100vw, 448px" />
                   </div>
 
                   <div className="flex flex-col gap-1">
@@ -248,7 +249,7 @@ export default function OurProcess({ onSmoothScroll }: OurProcessProps) {
                     className="inline-flex items-center gap-1 text-[12px] font-normal leading-[1.5em] tracking-[-0.04em] text-[#191919] group"
                     style={{ fontFamily: 'Geist, sans-serif' }}
                   >
-                   <img src="/arr.svg" alt="arrow" width={12} height={12} />
+                   <Image src="/arr.svg" alt="arrow" width={12} height={12} />
                     <span className="hover-underline">Book a free call</span>
                   </MagneticButton>
                 </div>
@@ -266,7 +267,7 @@ export default function OurProcess({ onSmoothScroll }: OurProcessProps) {
                     transition={{ duration: 0.4 }}
                     className="w-full h-[250px] md:h-[280px] lg:h-[323.55px] rounded-[28px] relative overflow-hidden"
                   >
-                    <img src={steps[activeStep].image} alt="process" className="w-full h-full object-cover" />
+                    <Image src={steps[activeStep].image} alt="process" fill className="object-cover" loading="lazy" sizes="(max-width: 768px) 100vw, 448px" />
                   </motion.div>
 
                   <AnimatePresence mode="wait">
@@ -302,7 +303,7 @@ export default function OurProcess({ onSmoothScroll }: OurProcessProps) {
                     className="inline-flex items-center gap-2 hover-underline text-[32px] font-normal leading-[1.5em] tracking-[-0.04em] text-[#191919] group"
                     style={{ fontFamily: 'Geist, sans-serif' }}
                   >
-                   <img src="/arr.svg" alt="arrow" width={20} height={20} />
+                   <Image src="/arr.svg" alt="arrow" width={20} height={20} />
                     <span className="">Book a free discovery call</span>
                   </MagneticButton>
                 </motion.div>

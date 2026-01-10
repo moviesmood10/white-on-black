@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { gsap, ScrollTrigger } from '../animations/utils/gsapConfig';
 import MagneticButton from '../animations/components/MagneticButton';
 import { useSmoothScroll } from '../animations/providers/SmoothScrollProvider';
@@ -119,7 +120,7 @@ export default function Navigation({ onSmoothScroll }: NavigationProps) {
           transition={{ duration: 0.2 }}
         >
           <div className="w-[62.23px] h-[20.8px]">
-            <img src="/logo.svg" alt="logo" width={62.23} height={20.8} />
+            <Image src="/logo.svg" alt="logo" width={62} height={21} priority />
           </div>
           <div className="w-px h-7 bg-[#191919]"></div>
           <span className="text-[20px] font-normal leading-[1.4em] tracking-[-0.048em] text-[#191919]">Studio</span>
@@ -173,7 +174,7 @@ export default function Navigation({ onSmoothScroll }: NavigationProps) {
             className="flex flex-row items-center gap-4"
           >
             <div className="w-[62.23px] h-[20.8px]">
-              <img src="/logo.svg" alt="logo" width={62.23} height={20.8} />
+              <Image src="/logo.svg" alt="logo" width={62} height={21} priority />
             </div>
             <div className="w-px ml-2 h-7 bg-[#191919]"></div>
             <span className="text-[20px] ml-4 font-normal leading-[1.4em] tracking-[-0.048em] text-[#191919]">Studio</span>
@@ -246,7 +247,7 @@ export default function Navigation({ onSmoothScroll }: NavigationProps) {
                     transition={{ delay: 0.2, duration: 0.4 }}
                     className="flex items-center gap-3"
                   >
-                    <img src="/logo.svg" alt="logo" width={50} height={17} />
+                    <Image src="/logo.svg" alt="logo" width={50} height={17} priority />
                     <div className="w-px h-5 bg-[#191919]/30"></div>
                     <span className="text-[16px] font-normal tracking-[-0.04em] text-[#191919]">Studio</span>
                   </motion.div>

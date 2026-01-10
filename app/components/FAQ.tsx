@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { gsap } from '../animations/utils/gsapConfig';
 import RevealText from '../animations/components/RevealText';
@@ -200,7 +201,7 @@ export default function FAQ({ onSmoothScroll }: FAQProps) {
               style={{ fontFamily: 'Manrope, sans-serif' }}
             >
               <span className="">Contact us</span>
-            <img src="/arrow.svg" alt="arrow" className="w-4 h-4" style={{ filter: 'brightness(0)' }} width={12} height={12} />
+            <Image src="/arrow.svg" alt="arrow" className="w-4 h-4" style={{ filter: 'brightness(0)' }} width={12} height={12} />
             </MagneticButton>
           </motion.div>
         </div>

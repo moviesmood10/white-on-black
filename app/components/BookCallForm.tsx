@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import InfiniteMarquee from '../animations/components/InfiniteMarquee';
 import Script from 'next/script';
 import RevealText from '../animations/components/RevealText';
@@ -69,12 +70,13 @@ export default function BookCallForm({ onSmoothScroll }: BookCallFormProps) {
                       key={idx}
                       className="h-[22px] w-[100px] mx-6 flex items-center justify-center"
                     >
-                      <img 
-                        src={logo} 
-                        alt={`Logo ${idx + 1}`} 
-                        width={100} 
-                        height={22} 
-                        className="w-full h-full object-contain brightness-0 invert" 
+                      <Image
+                        src={logo}
+                        alt={`Logo ${idx + 1}`}
+                        width={100}
+                        height={22}
+                        loading="lazy"
+                        className="w-full h-full object-contain brightness-0 invert"
                       />
                     </div>
                   ))}
