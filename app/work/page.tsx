@@ -1,10 +1,13 @@
 'use client';
 
+import { lazy, Suspense } from 'react';
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
-import Start from '../components/Start';
 import { handleSmoothScroll } from '../utils/smoothScroll';
 import Lottie, { LottieRefCurrentProps } from 'lottie-react';
+
+// Lazy load components below the fold to reduce initial bundle size
+const Start = lazy(() => import('../components/Start'));
 
 const projects = [
   {
@@ -365,7 +368,9 @@ export default function CaseStudyPage() {
       </div>
 
       <div className='pb-20'>
-        <Start onSmoothScroll={onSmoothScroll} />
+        <Suspense fallback={null}>
+          <Start onSmoothScroll={onSmoothScroll} />
+        </Suspense>
       </div>
     </div>
   );

@@ -1,16 +1,19 @@
 'use client';
 
+import { lazy, Suspense } from 'react';
 import Hero from './components/Hero';
 import SelectedWorks from './components/SelectedWorks';
 import WhoWeAre from './components/WhoWeAre';
-import Start from './components/Start';
-import WhatWeDo from './components/WhatWeDo';
-import OurProcess from './components/OurProcess';
-import FAQ from './components/FAQ';
-import BookCallForm from './components/BookCallForm';
 import { handleSmoothScroll } from './utils/smoothScroll';
-import ClientsReview from './components/ClientsReview';
-import MoreProjects from './components/MoreProjects';
+
+// Lazy load components below the fold to reduce initial bundle size
+const Start = lazy(() => import('./components/Start'));
+const WhatWeDo = lazy(() => import('./components/WhatWeDo'));
+const OurProcess = lazy(() => import('./components/OurProcess'));
+const FAQ = lazy(() => import('./components/FAQ'));
+const BookCallForm = lazy(() => import('./components/BookCallForm'));
+const ClientsReview = lazy(() => import('./components/ClientsReview'));
+const MoreProjects = lazy(() => import('./components/MoreProjects'));
 
 export default function Home() {
   const onSmoothScroll = (
@@ -26,13 +29,27 @@ export default function Home() {
         <Hero onSmoothScroll={onSmoothScroll} />
         <SelectedWorks onSmoothScroll={onSmoothScroll} />
         <WhoWeAre />
-        <MoreProjects />
-        <WhatWeDo />
-        <Start onSmoothScroll={onSmoothScroll} />
-        <OurProcess onSmoothScroll={onSmoothScroll} />
-        <ClientsReview />
-        <FAQ onSmoothScroll={onSmoothScroll} />
-        <BookCallForm onSmoothScroll={onSmoothScroll} />
+        <Suspense fallback={null}>
+          <MoreProjects />
+        </Suspense>
+        <Suspense fallback={null}>
+          <WhatWeDo />
+        </Suspense>
+        <Suspense fallback={null}>
+          <Start onSmoothScroll={onSmoothScroll} />
+        </Suspense>
+        <Suspense fallback={null}>
+          <OurProcess onSmoothScroll={onSmoothScroll} />
+        </Suspense>
+        <Suspense fallback={null}>
+          <ClientsReview />
+        </Suspense>
+        <Suspense fallback={null}>
+          <FAQ onSmoothScroll={onSmoothScroll} />
+        </Suspense>
+        <Suspense fallback={null}>
+          <BookCallForm onSmoothScroll={onSmoothScroll} />
+        </Suspense>
       </div>
     </div>
   );

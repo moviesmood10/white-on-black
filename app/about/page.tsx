@@ -3,6 +3,7 @@
 
 'use client';
 
+import { lazy, Suspense } from 'react';
 import { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { gsap, ScrollTrigger } from '../animations/utils/gsapConfig';
@@ -10,12 +11,14 @@ import RevealText from '../animations/components/RevealText';
 import Image from 'next/image';
 import { handleSmoothScroll } from '../utils/smoothScroll';
 import WhoWeAre from '../components/WhoWeAre';
-import Start from '../components/Start';
-import FAQ from '../components/FAQ';
-import BookCallForm from '../components/BookCallForm';
 import SectionLabel from '../components/SectionLabel';
 import ApproachCard from '../components/ApproachCard';
-import OurProcess from '../components/OurProcess';
+
+// Lazy load components below the fold to reduce initial bundle size
+const Start = lazy(() => import('../components/Start'));
+const FAQ = lazy(() => import('../components/FAQ'));
+const BookCallForm = lazy(() => import('../components/BookCallForm'));
+const OurProcess = lazy(() => import('../components/OurProcess'));
 
 export default function WorkPage() {
   const onSmoothScroll = (
@@ -139,7 +142,9 @@ export default function WorkPage() {
         </div>
       </section>
       <WhoWeAre />
-      <OurProcess onSmoothScroll={onSmoothScroll}/>
+      <Suspense fallback={null}>
+        <OurProcess onSmoothScroll={onSmoothScroll}/>
+      </Suspense>
       <section className="w-full bg-white flex flex-col items-center py-[72px] px-6 md:py-[80px] md:px-10 lg:py-[100px] lg:px-[164px] 2xl:max-w-[1920px] 2xl:mx-auto">
         <div className="w-full flex flex-col gap-16">
           <div className="w-full pt-[15px]">
@@ -165,9 +170,15 @@ export default function WorkPage() {
           </div>
         </div>
       </section>
-      <Start onSmoothScroll={onSmoothScroll} />
-      <FAQ onSmoothScroll={onSmoothScroll} />
-      <BookCallForm onSmoothScroll={onSmoothScroll} />
+      <Suspense fallback={null}>
+        <Start onSmoothScroll={onSmoothScroll} />
+      </Suspense>
+      <Suspense fallback={null}>
+        <FAQ onSmoothScroll={onSmoothScroll} />
+      </Suspense>
+      <Suspense fallback={null}>
+        <BookCallForm onSmoothScroll={onSmoothScroll} />
+      </Suspense>
       </div>
     </div>
   );
